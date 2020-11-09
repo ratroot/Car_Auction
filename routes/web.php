@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Events\testEvent;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
+    broadcast(new testEvent('some data'));
+
     return view('home');
-})->middleware('auth');
+});
 
 Auth::routes();
 
