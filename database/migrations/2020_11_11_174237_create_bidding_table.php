@@ -13,7 +13,7 @@ class CreateBiddingTable extends Migration
      */
     public function up()
     {
-        Schema::table('bidding', function (Blueprint $table) {
+        Schema::create('bidding', function (Blueprint $table) {
             $table->id();
             $table->integer('auctionID');
             $table->integer('userID');
@@ -30,8 +30,7 @@ class CreateBiddingTable extends Migration
      */
     public function down()
     {
-        Schema::table('bidding', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('bidding');
+
     }
 }
