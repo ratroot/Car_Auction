@@ -21,3 +21,5 @@ Route::post('register', 'Auth\RegisterController@APIregister');
 Route::get('auction', 'API\AuctionAPI@index');
 Route::post('authenticate', 'Auth\LoginController@APIauthenticate');
 Route::post('logout', 'Auth\LoginController@APIlogout');
+Route::post('postBid', 'API\BiddingController@postBid');
+
