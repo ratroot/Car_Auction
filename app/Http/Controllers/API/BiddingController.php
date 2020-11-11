@@ -19,12 +19,17 @@ class BiddingController extends Controller
 
         $bid = new Bidding;
         $bid->auctionID = $auctionID;
-        $bid->userID = $auctionID;
-        $bid->latestBid = $auctionID;
-        $bid->userDeviceID = $auctionID;
+        $bid->userID = $userID;
+        $bid->latestBid = $latestBid;
+        $bid->userDeviceID = $userDeviceID;
 
         $bid->save();
 
         broadcast(new testEvent($bid));
+    }
+
+    public function getBids(){
+
+        return Bidding::all();
     }
 }
