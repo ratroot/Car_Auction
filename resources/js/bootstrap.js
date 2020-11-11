@@ -36,10 +36,15 @@ window.Pusher = require('pusher-js');
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
-    wsHost: window.location.hostname,
+    wsHost: '45.61.53.62',
     wsPort: 6001,
+    wssHost: '45.61.53.62',
+    wssPort: 6001,
+    //key: 'client',
     disableStats: true,
+    enabledTransports: ['ws', 'wss'],
     forceTLS: false,
+    //encrypted: true
 });
 
 window.Echo.channel('testing-channel')

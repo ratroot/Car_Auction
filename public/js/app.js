@@ -43421,10 +43421,15 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "testappkey",
-  wsHost: window.location.hostname,
+  wsHost: '45.61.53.62',
   wsPort: 6001,
+  wssHost: '45.61.53.62',
+  wssPort: 6001,
+  //key: 'client',
   disableStats: true,
-  forceTLS: false
+  enabledTransports: ['ws', 'wss'],
+  forceTLS: false //encrypted: true
+
 });
 window.Echo.channel('testing-channel').listen('testEvent', function (e) {
   console.log(e);

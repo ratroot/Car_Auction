@@ -57,7 +57,7 @@ class LoginController extends Controller
             ]);
         }
         else{
-            return response()->json('nanana');
+            return response()->json('LOGIN FAILED');
         }
     }
 
