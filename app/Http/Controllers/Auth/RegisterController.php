@@ -100,11 +100,11 @@ class RegisterController extends Controller
             if($EID_front_pic != null && $EID_back_pic !=null){
                 $EID_front_pic_name= $EID_front_pic->getClientOriginalName();
                 $EID_back_pic_name= $EID_back_pic->getClientOriginalName();
-                $profile_pic_name= $EID_back_pic->getClientOriginalName();
+                //$profile_pic_name= $EID_back_pic->getClientOriginalName();
 
                 $EID_front_pic->move(public_path().'/image/',$EID_front_pic_name);
                 $EID_back_pic->move(public_path().'/image/',$EID_back_pic_name);
-                $profile_pic->move(public_path().'/image/',$profile_pic_name);
+                //$profile_pic->move(public_path().'/image/',$profile_pic_name);
             }
             if($profile_pic != null){        
                 $profile_pic_name= $EID_back_pic->getClientOriginalName();
