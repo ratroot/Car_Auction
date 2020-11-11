@@ -15,7 +15,7 @@ use App\Events\testEvent;
 
 
 Route::get('/', function () {
-    //broadcast(new testEvent('some data'));
+    broadcast(new testEvent('some data'));
 
     return view('home');
 })->middleware('auth');
