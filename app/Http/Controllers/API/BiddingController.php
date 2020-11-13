@@ -40,11 +40,17 @@ class BiddingController extends Controller
                     ->orderByDesc('bidding.id')
                     ->limit(1)
                     ->get();
-        if(count($data) > 0)
+        if(count($data) > 0){
             $data[0]->highestBid =  DB::table('bidding')->where('bidding.auctionID', '=',$auctionID)->max('latestBid');   
-        
+            return response()->json($data);
 
-        return response()->json($data);
+        }
+        else{
+            $emp_data = array('biddingID'=>null,'currentBid'=>null);
+            $emp_data['highestBid'] =  DB::table('bidding')->where('bidding.auctionID', '=',$auctionID)->max('latestBid');   
+            return response()->json([$emp_data]);
+        }
+
 
     }
 
