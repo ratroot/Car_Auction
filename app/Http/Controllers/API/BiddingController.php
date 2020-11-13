@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Bidding;
 use App\Events\testEvent;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -16,7 +17,6 @@ class BiddingController extends Controller
         $latestBid = $request['Latestbid'];
         $userDeviceID = $request['Usertoken'];
         
-
         $bid = new Bidding;
         $bid->auctionID = $auctionID;
         $bid->userID = $userID;
@@ -26,6 +26,26 @@ class BiddingController extends Controller
         $bid->save();
 
         broadcast(new testEvent($bid));
+    }
+
+    public function getBidOnAuction(Request $request){
+
+        $auctionID = $request['Auction_id'];
+        $userID = $request['User_id'];
+        
+        $data = DB::table('bidding')
+                    ->select('bidding.id as biddingID', 'latestbid as currentBid')
+                    ->where('bidding.auctionID', '=', $auctionID)
+                    ->where('bidding.userID', '=', $userID)
+                    ->orderByDesc('bidding.id')
+                    ->limit(1)
+                    ->get();
+        if(count($data) > 0)
+            $data[0]->highestBid =  DB::table('bidding')->max('latestBid');    
+        
+
+        return response()->json($data);
+
     }
 
     public function getBids(){
