@@ -41,7 +41,7 @@ class BiddingController extends Controller
                     ->limit(1)
                     ->get();
         if(count($data) > 0)
-            $data[0]->highestBid =  DB::table('bidding')->max('latestBid');    
+            $data[0]->highestBid =  DB::table('bidding')->where('bidding.auctionID', '=',$auctionID)->max('latestBid');   
         
 
         return response()->json($data);

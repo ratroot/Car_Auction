@@ -23,7 +23,7 @@ class AuctionAPI extends Controller
 
         foreach($all_data as $data){
             $data->images = Images::where('auctionID', $data->id)->get('path');
-            $data[0]->highestBid =  DB::table('bidding')->max('latestBid');
+            $data->highestBid =  DB::table('bidding')->where('bidding.auctionID', '=',$data->id)->max('latestBid');
         }
 
         return response()->json(['data' => $all_data]);
