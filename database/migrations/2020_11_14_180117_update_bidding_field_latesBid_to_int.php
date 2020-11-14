@@ -14,7 +14,7 @@ class UpdateBiddingFieldLatesBidToInt extends Migration
     public function up()
     {
         Schema::table('bidding', function (Blueprint $table) {
-            $table->bigInteger('latestBid',50)->nullable()->change();
+            $table->bigInteger('latestBid')->nullable()->change();
         });
     }
 
