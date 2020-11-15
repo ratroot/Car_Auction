@@ -28,5 +28,7 @@ Route::get('/auction', 'AuctionController@index');
 Route::get('/auction/create', 'AuctionController@create');
 
 Route::get('/users', 'UsersController@index');
+Route::get('/approve/{id}', 'UsersController@approveUser');
+Route::get('/disapprove/{id}', 'UsersController@disApproveUser');
 
 Route::post('/auction/store', 'AuctionController@store');

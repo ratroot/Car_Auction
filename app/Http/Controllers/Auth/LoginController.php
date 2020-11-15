@@ -40,9 +40,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-
-    
-
     public function APIauthenticate(Request $request)
     {
         $this->validateLogin($request);
@@ -50,14 +47,25 @@ class LoginController extends Controller
 
         if ($this->attemptLogin($request)) {
             $user = $this->guard()->user();
-            $user->APIgenerateToken();
+            
 
-            return response()->json([
-                'data' => $user->toArray(),
-            ]);
+            if($user->approved == 1){
+                $user->APIgenerateToken();
+                return response()->json([
+                    'status' => true,
+                    'data' => $user->toArray(),
+                ]);
+            }
+            else{
+                return response()->json([
+                    'status' =>  false,
+                    'data' => 'You are not approved yet, please contact admin.',
+                ]);
+            }
+           
         }
         else{
-            return response()->json('LOGIN FAILED');
+            return response()->json(['status'=>false, 'data'=>'LOGIN FAILED']);
         }
     }
 
