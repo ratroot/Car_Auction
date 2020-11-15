@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+
 class RegisterController extends Controller
 {
     /*
@@ -81,8 +82,8 @@ class RegisterController extends Controller
             'EIDnumber' => ['required', 'string'],
             'DOB' => ['required', 'string'],
             'phone' => ['required', 'string'],
-            'EID_front_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg|max:3000'],
-            'EID_back_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg|max:3000'],
+            'EID_front_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg|max:5000'],
+            'EID_back_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg|max:5000'],
         ]);
         if ($validator->fails()) {
             $response['response'] = $validator->messages();
@@ -120,7 +121,7 @@ class RegisterController extends Controller
                 'EIDnumber' => $data['EIDnumber'],
                 'DOB' => $data['EIDnumber'],
                 'phone' => $data['phone'],
-                'profile_pic' => $EID_back_pic_name,
+                'profile_pic' => $profile_pic_name,
                 'EID_front_pic' => $EID_front_pic_name,
                 'EID_back_pic' => $EID_back_pic_name,
             ]);
