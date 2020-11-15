@@ -82,8 +82,8 @@ class RegisterController extends Controller
             'EIDnumber' => ['required', 'string'],
             'DOB' => ['required', 'string'],
             'phone' => ['required', 'string'],
-            'EID_front_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg,max:5000'],
-            'EID_back_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg,max:5000'],
+            'EID_front_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg'],
+            'EID_back_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg'],
         ]);
         if ($validator->fails()) {
             $response['response'] = $validator->messages();
