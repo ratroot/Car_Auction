@@ -82,7 +82,7 @@ class RegisterController extends Controller
             'EIDnumber' => ['required', 'string'],
             'DOB' => ['required', 'string'],
             'phone' => ['required', 'string'],
-            //'EID_front_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg'],
+            'EID_front_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg'],
             'EID_back_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg'],
         ]);
         if ($validator->fails()) {
@@ -91,6 +91,7 @@ class RegisterController extends Controller
             
             $response['status'] = true;
 
+            $timeStamp = now()->timestamp;
             $profile_pic = $data->file('profile_pic');
             $profile_pic_name = '';
             $EID_front_pic = $data->file('EID_front_pic');
@@ -99,8 +100,8 @@ class RegisterController extends Controller
             $EID_back_pic_name = '';
 
             if($EID_front_pic != null && $EID_back_pic !=null){
-                $EID_front_pic_name= $EID_front_pic->getClientOriginalName();
-                $EID_back_pic_name= $EID_back_pic->getClientOriginalName();
+                $EID_front_pic_name= $timeStamp.$EID_front_pic->getClientOriginalName();
+                $EID_back_pic_name= $timeStamp.$EID_back_pic->getClientOriginalName();
                 //$profile_pic_name= $EID_back_pic->getClientOriginalName();
 
                 $EID_front_pic->move(public_path().'/image/',$EID_front_pic_name);
@@ -108,7 +109,7 @@ class RegisterController extends Controller
                 //$profile_pic->move(public_path().'/image/',$profile_pic_name);
             }
             if($profile_pic != null){        
-                $profile_pic_name= $EID_back_pic->getClientOriginalName();
+                $profile_pic_name= $timeStamp.$EID_back_pic->getClientOriginalName();
 
                 $profile_pic->move(public_path().'/image/',$profile_pic_name);
             }  

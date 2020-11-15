@@ -51,11 +51,12 @@ class AuctionController extends Controller
         //$auction->save($request->all());
         
         $auctionID = Auction::create($request->all())->id;
+        $timeStamp = now()->timestamp;
 
         if ($request->hasfile('filename')){
             foreach($request->file('filename') as $image){
                 if($image != null){
-                    $name= $image->getClientOriginalName();
+                    $name= $timeStamp.$image->getClientOriginalName();
                     $image->move(public_path().'/image/',$name);
                     $data['path'] = $name;   
                     $data['auctionID'] = $auctionID;
