@@ -41,7 +41,7 @@ class changeAuctionStatus extends Command
      */
     public function handle()
     {
-        $auctionUpdated = DB::table('auctions')->where('EndDate','<',Carbon::now())->where('StartDate','>',Carbon::now())->update(['status'=> 0]);
+        $auctionUpdated = DB::table('auctions')->where('status','=','1')->where('EndDate','<',Carbon::now())->update(['status'=> 0]);
 
     }
 }
