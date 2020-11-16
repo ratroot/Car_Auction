@@ -20,9 +20,9 @@ class UsersController extends Controller
         return view('users.index',['users' => $users]);
     }
 
-    public function approveUser($id)
+    public function approveUser($id, $startLimit, $endLimit)
     {
-        $result = User::where('id', $id)->update(['approved' => 1]);
+        $result = User::where('id', $id)->update(['approved' => 1, 'startLimit' => $startLimit, 'endLimit' => $endLimit]);
         if($result > 0){
             return back()->with('success','User approved successfully.');
         }

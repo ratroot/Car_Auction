@@ -5,7 +5,11 @@
     
     <img src="{{ asset('public/image/user.png')}}" alt="">
     <div class="row justify-content-center">
-        @if (count($errors) > 0)
+       
+    <form action="{{url('/auction/store')}}" method="post" class="col-lg-12" enctype="multipart/form-data">
+         @csrf 
+         <div class="col-lg-12">
+         @if (count($errors) > 0)
         <div class="alert alert-danger">
           <strong>Sorry !</strong> There were some problems with your input.<br><br>
           <ul>
@@ -21,10 +25,6 @@
             {{ session('success') }}
           </div> 
           @endif
-    <form action="{{url('/auction/store')}}" method="post" class="col-lg-12" enctype="multipart/form-data">
-         @csrf 
-         <div class="col-lg-12">
-
 
          <div class="card" style="margin-bottom:40px;">
             <div class="card-header">{{ __('Auction Details') }}</div>
@@ -33,13 +33,13 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="" class="control-label">Start Date and Time</label>
-                                <input type="date" name="StartDate" id="StartDate" class="form-control">
+                                <input type="datetime-local" name="StartDate" id="StartDate" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="" class="control-label">End Date and Time</label>
-                                <input type="date" name="EndDate" id="EndDate" class="form-control">
+                                <input type="datetime-local" name="EndDate" id="EndDate" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-4">

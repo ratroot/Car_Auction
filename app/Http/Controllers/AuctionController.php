@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Auction;
 use App\Images;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AuctionController extends Controller
 {
@@ -44,6 +45,12 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
+
+        $start = date('Y-m-d H:i:s', strtotime($request->StartDate));
+        $request['StartDate'] = Carbon::parse($start,'Asia/Karachi')->tz('UTC');
+
+        $end = date('Y-m-d H:i:s', strtotime($request->EndDate));
+        $request['EndDate'] = Carbon::parse($end,'Asia/Karachi')->tz('UTC');
 
         $images = new Images;
 
