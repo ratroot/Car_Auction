@@ -43431,7 +43431,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   forceTLS: false //encrypted: true
 
 });
-window.Echo.channel('testing-channel').listen('testEvent', function (e) {
+window.Echo.channel('newAuctionChannel').listen('newauctionEvent', function (e) {
   console.log(e);
 });
 

@@ -47,8 +47,8 @@ window.Echo = new Echo({
     //encrypted: true
 });
 
-window.Echo.channel('testing-channel')
-.listen('testEvent', (e) =>{
+window.Echo.channel('newAuctionChannel')
+.listen('newauctionEvent', (e) =>{
 
     console.log(e);
 });

@@ -79,8 +79,10 @@ class AuctionController extends Controller
             }
         }
          
-        $auction->images = $all_images;
-        broadcast(new newauctionEvent($auction));
+        $auction['images'] = $all_images;
+
+        //return json_encode($auction);
+        broadcast(new newauctionEvent(json_encode($auction)));
 
         return back()->with('success','Form submitted successfully');
         //view('auctions.create');
