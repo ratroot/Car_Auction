@@ -6,6 +6,8 @@ use App\Auction;
 use App\Images;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Events\newauctionEvent;
+
 
 class AuctionController extends Controller
 {
@@ -57,7 +59,10 @@ class AuctionController extends Controller
         //$auction = new Auction;
         //$auction->save($request->all());
         
-        $auctionID = Auction::create($request->all())->id;
+        $auction = Auction::create($request->all());
+        $auctionID = $auction->id;
+
+        $all_images = array();
         $timeStamp = now()->timestamp;
 
         if ($request->hasfile('filename')){
@@ -68,11 +73,15 @@ class AuctionController extends Controller
                     $data['path'] = $name;   
                     $data['auctionID'] = $auctionID;
                     Images::insert($data);
+                    $all_images[] = $name;
                 }
                 
             }
         }
-        
+         
+        $auction->images = $all_images;
+        broadcast(new newauctionEvent($auction));
+
         return back()->with('success','Form submitted successfully');
         //view('auctions.create');
     }

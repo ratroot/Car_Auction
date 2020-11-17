@@ -32,6 +32,6 @@ class newauctionEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('testing-channel');
+        return new Channel('newAuctionChannel');
     }
 }
