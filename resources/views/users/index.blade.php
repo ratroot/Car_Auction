@@ -76,10 +76,10 @@
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->created_at}}</td>
                                 @if($user->approved == 1)
-                                <td><button disabled class="btn btn-sm btn-primary btn-approve">Approve</button>
+                                <td><button disabled class="btn btn-sm btn-primary">Approve</button>
                                 <a href="{{url('/disapprove').'/'.$user->id}}"><button class="btn btn-sm btn-danger btn-reject">Reject</button></a></td>
                                 @else
-                                <td><button class="btn btn-sm btn-primary btn-approve">Approve</button>
+                                <td><button data-user-id="{{$user->id}}" class="btn btn-sm btn-primary btn-approve">Approve</button>
                                 <button disabled class="btn btn-sm btn-danger btn-reject">Reject</button></td>
                                 @endif
                             </tr>
@@ -97,8 +97,9 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('.btn-approve').click(function(){
+            var userid = $(this).attr('data-user-id');
             $("#user-limit-modal").modal('show');
-            $("#user-limit-modal .modal-footer .save-limit-btn").attr('data-user-approve-url',"{{url('/approve').'/'.$user->id}}");
+            $("#user-limit-modal .modal-footer .save-limit-btn").attr('data-user-approve-url',"{{url('/approve')}}/"+userid+"");
         });
 
 
