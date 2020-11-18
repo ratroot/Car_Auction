@@ -73,7 +73,7 @@ class AuctionController extends Controller
                     $data['path'] = $name;   
                     $data['auctionID'] = $auctionID;
                     Images::insert($data);
-                    $all_images[] = $name;
+                    $all_images[] = ['path'=>$name];
                 }
                 
             }
@@ -81,7 +81,7 @@ class AuctionController extends Controller
          
         $auction['images'] = $all_images;
 
-        //return json_encode($auction);
+        //return response()->json($auction);
         broadcast(new newauctionEvent(json_encode($auction)));
 
         return back()->with('success','Form submitted successfully');
