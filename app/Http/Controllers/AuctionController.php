@@ -49,10 +49,10 @@ class AuctionController extends Controller
     {
 
         $start = date('Y-m-d H:i:s', strtotime($request->StartDate));
-        $request['StartDate'] = Carbon::parse($start,'Asia/Karachi')->tz('UTC');
+        $request['StartDate'] = Carbon::parse($start,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
 
         $end = date('Y-m-d H:i:s', strtotime($request->EndDate));
-        $request['EndDate'] = Carbon::parse($end,'Asia/Karachi')->tz('UTC');
+        $request['EndDate'] = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
 
         $images = new Images;
 
@@ -81,7 +81,7 @@ class AuctionController extends Controller
          
         $auction['images'] = $all_images;
 
-        //return response()->json($auction);
+       // return response()->json($auction);
         broadcast(new newauctionEvent(json_encode($auction)));
 
         return back()->with('success','Form submitted successfully');
