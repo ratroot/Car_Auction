@@ -26,6 +26,6 @@ Route::post('logout', 'Auth\LoginController@APIlogout');
 Route::post('postBid', 'API\BiddingController@postBid');
 Route::get('getBids', 'API\BiddingController@getBids');
 Route::get('getBid', 'API\BiddingController@getBidOnAuction');
-Route::get('getUserPreviousBids/{userID}', 'API\BiddingController@getUserPreviousBids');
-Route::get('getUserLiveBids/{userID}', 'API\BiddingController@getUserLiveBids');
+Route::get('getUserPreviousBids', 'API\BiddingController@getUserPreviousBids');
+Route::get('getUserLiveBids', 'API\BiddingController@getUserLiveBids');
 

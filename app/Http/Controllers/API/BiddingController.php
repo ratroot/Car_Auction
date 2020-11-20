@@ -54,7 +54,8 @@ class BiddingController extends Controller
 
     }
 
-    public function getUserPreviousBids($userID){
+    public function getUserPreviousBids(Request $request){
+        $userID = $request['userID'];
         if($userID == null || $userID == 0){
             return response()->json('user id is required');
         }
@@ -65,7 +66,8 @@ class BiddingController extends Controller
                             "WHERE auctions.status = 0 AND bidding.userID = $userID");
         return response()->json($bids);
     }
-    public function getUserLiveBids($userID){
+    public function getUserLiveBids(Request $request){
+        $userID = $request['userID'];
         if($userID == null || $userID == 0){
             return response()->json('user id is required');
         }
