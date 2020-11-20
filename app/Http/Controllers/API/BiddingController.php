@@ -74,7 +74,10 @@ class BiddingController extends Controller
         $bids = DB::select("SELECT bidding.latestBid, auctions.id as auctionID, auctions.Make, auctions.Model, auctions.Year, (SELECT path from images where images.auctionID = auctions.id LIMIT 1) as image ".
                             "FROM bidding ".
                             "LEFT JOIN auctions on bidding.auctionID = auctions.id ".
-                            "WHERE auctions.status = 1 AND bidding.userID = $userID");
+                            "WHERE auctions.status = 1 AND bidding.userID = $userID ".
+                            "AND bidding.id = (SELECT b.id FROM bidding as b WHERE b.auctionID = auctions.id ORDER BY b.id DESC LIMIT 1) ".
+                            "GROUP BY bidding.latestBid, auctions.id, auctions.Make, auctions.Model, auctions.Year, image");
+        
         return response()->json($bids);
     }
     

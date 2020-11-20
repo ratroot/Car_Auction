@@ -44,8 +44,14 @@ class AuctionAPI extends Controller
                                                         ->where('bidding.userID', '=', $userID)
                                                         ->orderByDesc('bidding.id')
                                                         ->limit(1)
-                                                        ->get('latestBid')[0];
-            $data->currentBid = $currentBid->latestBid;
+                                                        ->get('latestBid');
+            
+            if(count($currentBid) > 0){
+                $data->currentBid = $currentBid[0]->latestBid;
+            }
+            else{
+                $data->currentBid = null;
+            }
         }
 
         return response()->json(['data' => $all_data]);
