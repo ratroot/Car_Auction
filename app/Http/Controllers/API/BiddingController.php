@@ -54,6 +54,27 @@ class BiddingController extends Controller
 
     }
 
+    public function getUserPreviousBids($userID){
+        if($userID == null || $userID == 0){
+            return response()->json('user id is required');
+        }
+
+        $bids = DB::select("SELECT bidding.latestBid, auctions.id as auctionID, auctions.Make, auctions.Model, auctions.Year, (SELECT path from images where images.auctionID = auctions.id LIMIT 1) as image ".
+                            "FROM bidding ".
+                            "LEFT JOIN auctions on bidding.auctionID = auctions.id ".
+                            "WHERE auctions.status = 0 AND bidding.userID = $userID");
+        return response()->json($bids);
+    }
+    public function getUserLiveBids($userID){
+        if($userID == null || $userID == 0){
+            return response()->json('user id is required');
+        }
+        $bids = DB::select("SELECT bidding.latestBid, auctions.id as auctionID, auctions.Make, auctions.Model, auctions.Year, (SELECT path from images where images.auctionID = auctions.id LIMIT 1) as image ".
+                            "FROM bidding ".
+                            "LEFT JOIN auctions on bidding.auctionID = auctions.id ".
+                            "WHERE auctions.status = 1 AND bidding.userID = $userID");
+        return response()->json($bids);
+    }
     public function getBids(){
 
         return Bidding::all();

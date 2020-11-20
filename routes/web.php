@@ -30,5 +30,9 @@ Route::get('/auction/create', 'AuctionController@create');
 Route::get('/users', 'UsersController@index');
 Route::get('/approve/{id}/{startLimit}/{endLimit}', 'UsersController@approveUser');
 Route::get('/disapprove/{id}', 'UsersController@disApproveUser');
+Route::get('/completed', 'AuctionController@completed');
 
 Route::post('/auction/store', 'AuctionController@store');
+
+//demo
+Route::get('/notification', 'NotificationController@notification');

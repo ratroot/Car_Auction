@@ -7,6 +7,7 @@ use App\Images;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Events\newauctionEvent;
+use Illuminate\Support\Facades\DB;
 
 
 class AuctionController extends Controller
@@ -99,6 +100,18 @@ class AuctionController extends Controller
         //
     }
 
+
+    public function completed(){
+        $all_completed = DB::select("SELECT users.name,users.id, a.latestBid, auctions.id as auctionID, auctions.Make ".
+                                    "FROM `users` ".
+                                    "LEFT JOIN bidding as a on a.userID = users.id ".
+                                    "LEFT JOIN auctions on a.auctionID = auctions.id ".
+                                    "WHERE auctions.status = 0 ".
+                                    "AND a.latestBid = (SELECT MAX(b.latestBid) FROM bidding as b WHERE b.auctionID = auctions.id) ".
+                                    "GROUP BY auctions.id, users.name, users.id, a.latestBid, auctions.Make");
+
+        return view('auctions.completed',['data' => $all_completed]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

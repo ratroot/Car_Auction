@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use  App\Auction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\NotificationController;
 
 class changeAuctionStatus extends Command
 {
@@ -41,7 +41,17 @@ class changeAuctionStatus extends Command
      */
     public function handle()
     {
-        $auctionUpdated = DB::table('auctions')->where('status','=','1')->where('EndDate','<',Carbon::now())->update(['status'=> 0]);
+        $get_ids = DB::table('auctions')->select('id')->where('status','=','1')->where('EndDate','<',Carbon::now())->get();
+        
+        $updated = DB::table('auctions')->where('status','=','1')->where('EndDate','<',Carbon::now())->update(['status'=> 0]);
 
+        $controller = new NotificationController();
+        $controller->notification();
+
+        foreach($get_ids as $item ){
+            //$item->update(['status'=> 1]);
+            echo $item->id;
+        }
+        
     }
 }
