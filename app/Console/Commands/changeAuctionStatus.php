@@ -41,17 +41,17 @@ class changeAuctionStatus extends Command
      */
     public function handle()
     {
-        $get_ids = DB::table('auctions')->select('id')->where('status','=','1')->where('EndDate','<',Carbon::now())->get();
+        // $get_ids = DB::table('auctions')->select('id')->where('status','=','1')->where('EndDate','<',Carbon::now())->get();
         
         $updated = DB::table('auctions')->where('status','=','1')->where('EndDate','<',Carbon::now())->update(['status'=> 0]);
 
-        $controller = new NotificationController();
-        $controller->notification();
+        // $controller = new NotificationController();
+        // $controller->notification();
 
-        foreach($get_ids as $item ){
-            //$item->update(['status'=> 1]);
-            echo $item->id;
-        }
+        // foreach($get_ids as $item ){
+        //     //$item->update(['status'=> 1]);
+        //     echo $item->id;
+        // }
         
     }
 }

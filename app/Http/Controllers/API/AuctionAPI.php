@@ -28,4 +28,26 @@ class AuctionAPI extends Controller
 
         return response()->json(['data' => $all_data]);
     }
+
+    public function getAuction(Request $request){
+        $userID = $request['userID'];
+        $auctionID = $request['auctionID'];
+
+        $response = array('data' => '');
+        $all_data = DB::table('auctions')->where('id','=',$auctionID)->get();
+
+        foreach($all_data as $data){
+            $data->images = Images::where('auctionID', $data->id)->get('path');
+            $data->highestBid =  DB::table('bidding')->where('bidding.auctionID', '=',$data->id)->max('latestBid');
+            $currentBid =  DB::table('bidding')->where('bidding.auctionID', '=', $auctionID)
+                                                        ->select('latestBid')
+                                                        ->where('bidding.userID', '=', $userID)
+                                                        ->orderByDesc('bidding.id')
+                                                        ->limit(1)
+                                                        ->get('latestBid')[0];
+            $data->currentBid = $currentBid->latestBid;
+        }
+
+        return response()->json(['data' => $all_data]);
+    }
 }

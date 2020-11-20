@@ -77,6 +77,7 @@ class BiddingController extends Controller
                             "WHERE auctions.status = 1 AND bidding.userID = $userID");
         return response()->json($bids);
     }
+    
     public function getBids(){
 
         return Bidding::all();
