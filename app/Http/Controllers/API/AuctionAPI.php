@@ -63,7 +63,7 @@ class AuctionAPI extends Controller
             return response()->json('user id is required');
         }
 
-        $purchased = DB::table('auctions')->get();
+        $purchased = DB::table('purchased')->where('userID','=', $userID)->get();
 
         return response()->json(['data' => $purchased]);
     } 
