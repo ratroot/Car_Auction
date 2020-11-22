@@ -24,15 +24,19 @@ Auth::routes();
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/auction', 'AuctionController@index');
-Route::get('/auction/create', 'AuctionController@create');
+
 
 Route::get('/users', 'UsersController@index');
 Route::get('/approve/{id}/{startLimit}/{endLimit}', 'UsersController@approveUser');
 Route::get('/disapprove/{id}', 'UsersController@disApproveUser');
-Route::get('/completed', 'AuctionController@completed');
 
+
+//auction
 Route::post('/auction/store', 'AuctionController@store');
+Route::get('/completed', 'AuctionController@completed');
+Route::get('/auction', 'AuctionController@index');
+Route::get('/auction/create', 'AuctionController@create');
+Route::get('/auction/purchased/{userID}/{auctionID}/{price}/{pricetax}', 'AuctionController@purchased');
 
 //demo
 Route::get('/notification', 'NotificationController@notification');

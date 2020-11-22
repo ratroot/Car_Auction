@@ -2,8 +2,57 @@
 
 @section('content')
 <div class="container">
+    <div class="modal fade in" id="purchased-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Add details of purchasing</p>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="" class="control-label">Auction Price (AED)</label>
+                                <input type="text" name="auctionPrice" id="auctionPrice" oninput="this.value=this.value.replace(/[^0-9]/g,'');" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="" class="control-label">Auction Price + Tax (AED)</label>
+                                <input type="text" name="auctionPriceTax" id="auctionPriceTax" oninput="this.value=this.value.replace(/[^0-9]/g,'');" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary save-purchased-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-12">
+        @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <strong>Sorry !</strong> There were some problems with your input.<br><br>
+          <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+        @endif
+  
+          @if(session('success'))
+          <div class="alert alert-success">
+            {{ session('success') }}
+          </div> 
+          @endif
             <div class="card">
                 <div class="card-header">{{ __('Approve Requests') }}</div>
 
@@ -13,6 +62,7 @@
                             <tr>
                                 <th scope="col">Make</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Auction ID</th>
                                 <th scope="col">Highest Bid</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -22,9 +72,10 @@
                             <tr>
                                 <th scope="row">{{$completed->Make}}</th>
                                 <th >{{$completed->name}}</th>
+                                <th >{{$completed->auctionID}}</th>
                                 <td>{{$completed->latestBid}}</td>
-                                <td><button class="btn btn-sm btn-success">Purchase</button>
-                                <button class="btn btn-sm btn-primary">Re-Auction</button></td>
+                                <td><button data-user-id="{{$completed->id}}"  data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success btn-purchased">Purchased</button>
+                                <button data-user-id="{{$completed->id}}" class="btn btn-sm btn-primary btn-re-auction">Re-Auction</button></td>
                             </tr>
                         @endforeach
                             
@@ -36,3 +87,34 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.btn-purchased').click(function(){
+            var userid = $(this).attr('data-user-id');
+            var auctionID = $(this).attr('data-auction-id');
+
+            $("#purchased-modal").modal('show');
+            $("#purchased-modal .modal-footer .save-purchased-btn").attr('data-purchased-url',"{{url('/auction/purchased/')}}/"+userid+"/"+auctionID+"");
+            console.log(auctionID);
+        });
+
+
+        $('.save-purchased-btn').click(function(){
+            var url = $(this).attr('data-purchased-url');
+            var auctionPrice = $("#auctionPrice").val();
+            var auctionPriceTax = $("#auctionPriceTax").val();
+
+            if(auctionPrice == '' || auctionPriceTax == ''){
+                alert('Please fill all the fields');
+                return;
+            }
+            else{
+                url = url+'/'+auctionPrice+'/'+auctionPriceTax+'';
+            }
+            $('<a href = "'+url+'"></a>')[0].click();
+        });
+    });
+</script>
+@endpush

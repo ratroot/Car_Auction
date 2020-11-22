@@ -40,11 +40,11 @@ class AuctionAPI extends Controller
             $data->images = Images::where('auctionID', $data->id)->get('path');
             $data->highestBid =  DB::table('bidding')->where('bidding.auctionID', '=',$data->id)->max('latestBid');
             $currentBid =  DB::table('bidding')->where('bidding.auctionID', '=', $auctionID)
-                                                        ->select('latestBid')
-                                                        ->where('bidding.userID', '=', $userID)
-                                                        ->orderByDesc('bidding.id')
-                                                        ->limit(1)
-                                                        ->get('latestBid');
+                                                ->select('latestBid')
+                                                ->where('bidding.userID', '=', $userID)
+                                                ->orderByDesc('bidding.id')
+                                                ->limit(1)
+                                                ->get('latestBid');
             
             if(count($currentBid) > 0){
                 $data->currentBid = $currentBid[0]->latestBid;
@@ -56,4 +56,15 @@ class AuctionAPI extends Controller
 
         return response()->json(['data' => $all_data]);
     }
+
+    public function purchased(Request $request){
+        $userID = $request['userID'];
+        if($userID == null || $userID == 0 ){
+            return response()->json('user id is required');
+        }
+
+        $purchased = DB::table('auctions')->get();
+
+        return response()->json(['data' => $purchased]);
+    } 
 }

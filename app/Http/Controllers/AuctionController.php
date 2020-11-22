@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Events\newauctionEvent;
 use Illuminate\Support\Facades\DB;
-
+use App\Purchased;
 
 class AuctionController extends Controller
 {
@@ -111,6 +111,21 @@ class AuctionController extends Controller
                                     "GROUP BY auctions.id, users.name, users.id, a.latestBid, auctions.Make");
 
         return view('auctions.completed',['data' => $all_completed]);
+    }
+
+    public function purchased($userID, $auctionID, $price, $pricetax){
+
+        Auction::where('id',$auctionID)->update(['status' => 2]);
+        $purchased = new Purchased;
+        $purchased->userID = $userID;
+        $purchased->auctionID = $auctionID;
+        $purchased->auctionPrice = $price;
+        $purchased->auctionPriceAndTax = $pricetax;
+        $purchased->save();
+
+        return back()->with('success','Record updated successfully');
+
+
     }
     /**
      * Show the form for editing the specified resource.
