@@ -32,4 +32,5 @@ Route::get('getUserLiveBids', 'API\BiddingController@getUserLiveBids');
 //auctions
 Route::get('purchased', 'API\AuctionAPI@purchased');
 Route::get('auction', 'API\AuctionAPI@index');
+Route::get('wonbids', 'API\AuctionAPI@wonbids');
 
