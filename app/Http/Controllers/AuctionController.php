@@ -82,7 +82,7 @@ class AuctionController extends Controller
          
         $auction['images'] = $all_images;
 
-       // return response()->json($auction);
+        //return $auction;
         broadcast(new newauctionEvent(json_encode($auction)));
 
         return back()->with('success','Form submitted successfully');
@@ -142,14 +142,16 @@ class AuctionController extends Controller
 
         $auction[0]->negotiated = true;
         $auction[0]->images = Images::where('auctionID', $auctionID)->get('path');
+
+        $data = $auction[0];
         // $purchased = new Purchased;
         // $purchased->userID = $userID;
         // $purchased->auctionID = $auctionID;
         // $purchased->auctionPrice = $price;
         // $purchased->auctionPriceAndTax = $pricetax;
         // $purchased->save();
-        //return $auction;
-        broadcast(new newauctionEvent(json_encode($auction)));
+        //return $data;
+        broadcast(new newauctionEvent(json_encode($data)));
 
         return back()->with('success','Record updated successfully');
 
