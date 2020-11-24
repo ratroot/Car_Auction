@@ -137,16 +137,18 @@ class AuctionController extends Controller
         $end = date('Y-m-d H:i:s', strtotime($enddate));
         $enddate = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
 
-        $auction = Auction::where('id',$auctionID)->get();
         Auction::where('id',$auctionID)->update(['status' => 3, 'StartDate'=>$startdate, 'EndDate'=>$enddate]);
+        $auction = Auction::where('id',$auctionID)->get();
+
         $auction[0]->negotiated = true;
+        $auction[0]->images = Images::where('auctionID', $auctionID)->get('path');
         // $purchased = new Purchased;
         // $purchased->userID = $userID;
         // $purchased->auctionID = $auctionID;
         // $purchased->auctionPrice = $price;
         // $purchased->auctionPriceAndTax = $pricetax;
         // $purchased->save();
-         //return $auction;
+        //return $auction;
         broadcast(new newauctionEvent(json_encode($auction)));
 
         return back()->with('success','Record updated successfully');
