@@ -146,8 +146,8 @@ class AuctionController extends Controller
         // $purchased->auctionPrice = $price;
         // $purchased->auctionPriceAndTax = $pricetax;
         // $purchased->save();
-         return $auction;
-        //broadcast(new newauctionEvent(json_encode($auction)));
+         //return $auction;
+        broadcast(new newauctionEvent(json_encode($auction)));
 
         return back()->with('success','Record updated successfully');
 
