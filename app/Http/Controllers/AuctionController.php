@@ -139,15 +139,15 @@ class AuctionController extends Controller
 
         $auction = Auction::where('id',$auctionID)->get();
         Auction::where('id',$auctionID)->update(['status' => 3, 'StartDate'=>$startdate, 'EndDate'=>$enddate]);
-        $auction['negotiated'] = true;
+        $auction[0]->negotiated = true;
         // $purchased = new Purchased;
         // $purchased->userID = $userID;
         // $purchased->auctionID = $auctionID;
         // $purchased->auctionPrice = $price;
         // $purchased->auctionPriceAndTax = $pricetax;
         // $purchased->save();
-        // return $auction;
-        broadcast(new newauctionEvent(json_encode($auction)));
+         return $auction;
+        //broadcast(new newauctionEvent(json_encode($auction)));
 
         return back()->with('success','Record updated successfully');
 
