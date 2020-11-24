@@ -10,10 +10,10 @@
                 <div class="card-body">
                    <div class="row">
                    <div class="col-lg-4">
-                   <a href="{{url('/auction')}}">
+                   <a href="{{url('/completed')}}">
                         <div class="card">
                             <div class="card-body">
-                            Approve Auction requests
+                            Completed Auctions
                             </div>
                         </div>
                     </a>
