@@ -37,6 +37,13 @@ class AuctionAPI extends Controller
                             ->limit(1)
                             ->get('latestBid');
 
+            if($data->status == 3){
+                $data->negotiated = true;
+            }
+            else{
+                $data->negotiated = false;
+            }
+
             if(count($currentBid) > 0){
                 $data->currentBid = $currentBid[0]->latestBid;
             }

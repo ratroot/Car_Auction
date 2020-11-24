@@ -8,19 +8,19 @@ class NotificationController extends Controller
 {
     public function notification(){
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-        $token='eJKd54ZRTlqdXTMROOx-5w:APA91bHsk_w28U2-V2xG22WjoQLsn_E-c_K7F5GGISVXPMBfWohhx99Vyy1P_YFOSJMnQeei5pni0-1mJkbZua8ZcNa3dZZsk6vxE-eTgX66zKvYyGITdE2Wfy7agMjH19A7doEFpifN';
+        $token= ['edckeUrkRRGyueJYjWv22_:APA91bHF2wKazgGQjlKiD7LQtL431FAwKCl1at9wiuSfnVpdKBI9744ubZLQDNFerB5wzYJmKmEtuqoKbxBdaeQ0mYOHmFkxCIZsCaMkbPsQuJW8MIUGDKqRiHaUKwixYF5UHsjbzdrS','cNG4rAdsSTSt0CaatB1hhr:APA91bGcbe3GIQF91BZxQiKWvbS_kYrUmE6ohO5NihvQzNpXXg_v-ebUofwdWYvMSFxkTLCStb097lTz4HhtyRuaNUP61YRlu8r2MuhCUrdF1NS4qAsBxovmQsIYI2wMjaSGme3J0Rr2'];
 
         $notification = [
             'title' => 'test notification',
-            "body" => "You have won a car!!",
+            "body" => "You have won a car \n test test test \n test test test \n test test test \n test test test",
             'sound' => true,
         ];
         
         $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
 
         $fcmNotification = [
-            //'registration_ids' => $tokenList, //multple token array
-            'to'        => $token, //single token
+            'registration_ids' => $token, //multple token array
+            //'to'        => $token, //single token
             'notification' => $notification,
             'data' => $extraNotificationData
         ];

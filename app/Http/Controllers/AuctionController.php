@@ -127,6 +127,32 @@ class AuctionController extends Controller
 
 
     }
+
+
+    public function reauction($auctionID, $startdate, $enddate)
+    {
+        $start = date('Y-m-d H:i:s', strtotime($startdate));
+        $startdate = Carbon::parse($start,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+
+        $end = date('Y-m-d H:i:s', strtotime($enddate));
+        $enddate = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+
+        $auction = Auction::where('id',$auctionID)->get();
+        Auction::where('id',$auctionID)->update(['status' => 3, 'StartDate'=>$startdate, 'EndDate'=>$enddate]);
+        $auction['negotiated'] = true;
+        // $purchased = new Purchased;
+        // $purchased->userID = $userID;
+        // $purchased->auctionID = $auctionID;
+        // $purchased->auctionPrice = $price;
+        // $purchased->auctionPriceAndTax = $pricetax;
+        // $purchased->save();
+        // return $auction;
+        broadcast(new newauctionEvent(json_encode($auction)));
+
+        return back()->with('success','Record updated successfully');
+
+
+    }
     /**
      * Show the form for editing the specified resource.
      *

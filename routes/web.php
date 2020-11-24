@@ -37,6 +37,7 @@ Route::get('/completed', 'AuctionController@completed');
 Route::get('/auction', 'AuctionController@index');
 Route::get('/auction/create', 'AuctionController@create');
 Route::get('/auction/purchased/{userID}/{auctionID}/{price}/{pricetax}', 'AuctionController@purchased');
+Route::get('/auction/reauction/{auctionID}/{startdate}/{enddate}', 'AuctionController@reauction');
 
 //demo
 Route::get('/notification', 'NotificationController@notification');
