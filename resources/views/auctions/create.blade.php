@@ -81,12 +81,8 @@
                 <div class="row">
                  <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="" class="control-label">Make</label>
-                        <select name="Make" id="Make" class="form-control">
-                            <option value="Nissan">Nissan</option>
-                            <option value="Honda">Honda</option>
-                            <option value="Honda">Honda</option>
-                        </select>
+                    <label for="" class="control-label">Make</label>
+                        <input name="Make" id="Make" class="form-control">
                     </div>
                  </div>
 
@@ -1195,7 +1191,7 @@
                         <input name="FronLeftTireCondition" id="FronLeftTireCondition" class="form-control">
                     </div>
                  </div>
-                 
+
                  <div class="col-lg-4">
                     <div class="form-group">
                         <label for="" class="control-label">Front Left Tire Production Date</label>
