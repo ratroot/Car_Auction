@@ -43,8 +43,13 @@ class changeAuctionStatus extends Command
     {
         // $get_ids = DB::table('auctions')->select('id')->where('status','=','1')->where('EndDate','<',Carbon::now())->get();
         
-        $updated = DB::table('auctions')->where('status','=','1')->where('EndDate','<',Carbon::now())->update(['status'=> 0]);
-
+        $updated = DB::table('auctions')->where('EndDate','<',Carbon::now())
+                                        ->where(function($query){
+                                            $query->where('status','=',1)
+                                                   ->orWhere('status','=',3);
+                                        })->update(['status'=> 0]);
+        //$updated = DB::raw('UPDATE auctions SET status = 0 WHERE EndDate < "'.Carbon::now().'" AND (status = 1 OR status = 3)');
+        //echo $updated;
         // $controller = new NotificationController();
         // $controller->notification();
 
