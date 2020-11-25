@@ -24,7 +24,7 @@ class AuctionAPI extends Controller
         }
 
         $response = array('data' => '');
-        $all_data = DB::table('auctions')->where('status','=',1)->get();
+        $all_data = DB::table('auctions')->where('status','=',1)->OrWhere('status','=',3)->get();
 
         foreach($all_data as $data){
             $data->images = Images::where('auctionID', $data->id)->get('path');

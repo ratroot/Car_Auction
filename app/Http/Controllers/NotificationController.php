@@ -8,19 +8,19 @@ class NotificationController extends Controller
 {
     public function notification(){
         $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-        $token= ['edckeUrkRRGyueJYjWv22_:APA91bHF2wKazgGQjlKiD7LQtL431FAwKCl1at9wiuSfnVpdKBI9744ubZLQDNFerB5wzYJmKmEtuqoKbxBdaeQ0mYOHmFkxCIZsCaMkbPsQuJW8MIUGDKqRiHaUKwixYF5UHsjbzdrS','cNG4rAdsSTSt0CaatB1hhr:APA91bGcbe3GIQF91BZxQiKWvbS_kYrUmE6ohO5NihvQzNpXXg_v-ebUofwdWYvMSFxkTLCStb097lTz4HhtyRuaNUP61YRlu8r2MuhCUrdF1NS4qAsBxovmQsIYI2wMjaSGme3J0Rr2'];
+        $token= ['e6BArQSETjapLwc1NJuPd5:APA91bH6blJA52pMKjp-2QRqfRJNG7wbBW0tF7GNn0GQY3z0VjtyQMPz5RNEni_HUI1qosS8PQyJGEbhHuluD9uh54jGDmiEzgLydI8SLPQVjS7S0snc-mKkjj1DoEvTrXdscplWTNdw','cNG4rAdsSTSt0CaatB1hhr:APA91bGcbe3GIQF91BZxQiKWvbS_kYrUmE6ohO5NihvQzNpXXg_v-ebUofwdWYvMSFxkTLCStb097lTz4HhtyRuaNUP61YRlu8r2MuhCUrdF1NS4qAsBxovmQsIYI2wMjaSGme3J0Rr2'];
 
         $notification = [
-            'title' => 'test notification',
+            'title' => 'YOU WON AN AUCTION',
             "body" => "You have won a car \n test test test \n test test test \n test test test \n test test test",
             'sound' => true,
         ];
         
-        $extraNotificationData = ["message" => $notification,"moredata" =>'dd'];
+        $extraNotificationData = ["message" => $notification,"moredata" =>'1'];
 
         $fcmNotification = [
             'registration_ids' => $token, //multple token array
-            //'to'        => $token, //single token
+             //'to'        => $token, //single token
             'notification' => $notification,
             'data' => $extraNotificationData
         ];
