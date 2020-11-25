@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TestMigration extends Migration
+class CreateAuctionsOtherFieldsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class TestMigration extends Migration
      */
     public function up()
     {
-        Schema::create('testing', function (Blueprint $table) {
+        Schema::create('auctions_other_info', function (Blueprint $table) {
             $table->string('DoorFrontLeftReplaced', 100)->nullable();
-            $table->string('DoorFronLeft', 100)->nullable();
+            $table->string('DoorFrontLeft', 100)->nullable();
             $table->string('DoorRearLeftReplaced', 100)->nullable();
             $table->string('DoorRearLeft', 100)->nullable();
             $table->string('WingFrontLeftReplaced', 100)->nullable();
@@ -82,7 +82,9 @@ class TestMigration extends Migration
             $table->string('EngineExhaust', 100)->nullable();
             $table->string('Suspension_UnderneathNoise', 100)->nullable();
             $table->string('ProfileSystem_MemorySeats', 100)->nullable();
-            
+            $table->string('CruiseControl', 70)->nullable();
+            $table->foreignId('auctionID')->constrained('auctions');
+
         });
     }
 
@@ -93,8 +95,7 @@ class TestMigration extends Migration
      */
     public function down()
     {
-        Schema::table('auctions', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('auctions_other_info');
+
     }
 }

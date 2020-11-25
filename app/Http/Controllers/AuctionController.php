@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Auction;
 use App\Images;
+use App\Auction_Other_Info;
+use App\Auction_Extra_Info;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Events\newauctionEvent;
@@ -79,7 +81,12 @@ class AuctionController extends Controller
                 
             }
         }
-         
+        
+        $request['auctionID'] = $auctionID;
+        $auction_other = Auction_Other_Info::create($request->all());
+
+        $auction_extra = Auction_Extra_Info::create($request->all());
+
         $auction['images'] = $all_images;
 
         //return $auction;

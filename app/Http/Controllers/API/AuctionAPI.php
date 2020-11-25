@@ -107,7 +107,7 @@ class AuctionAPI extends Controller
                                 "FROM bidding ".
                                 "LEFT JOIN auctions on bidding.auctionID = auctions.id ".
                                 "WHERE auctions.status = 0 AND bidding.userID = $userID ".
-                                 "AND bidding.latestBid = (SELECT MAX(b.latestBid) from bidding b where b.auctionID = auctions.id)");  
+                                "AND bidding.latestBid = (SELECT MAX(b.latestBid) from bidding b where b.auctionID = auctions.id)");  
         
         return response()->json(['data' => $wonBids]);
 
