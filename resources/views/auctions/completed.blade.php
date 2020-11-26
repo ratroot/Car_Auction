@@ -139,6 +139,22 @@
         });
 
 
+        $('.save-purchased-btn').click(function(){
+            var url = $(this).attr('data-purchased-url');
+            var startLimit = $("#auctionPrice").val();
+            var endLimit = $("#auctionPriceTax").val();
+
+            if(startLimit == '' || endLimit == ''){
+                alert('Please add start and end limit');
+                return;
+            }
+            else{
+                url = url+'/'+startLimit+'/'+endLimit+'';
+            }
+            $('<a href = "'+url+'"></a>')[0].click();
+        });
+
+
         $('.btn-reauction').click(function(){
             //var userid = $(this).attr('data-user-id');
             var auctionID = $(this).attr('data-auction-id');
