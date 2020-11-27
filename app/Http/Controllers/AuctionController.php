@@ -128,8 +128,8 @@ class AuctionController extends Controller
             $pusher['image'] = null;
         }
 
-        return $auction;
-        //broadcast(new newauctionEvent(json_encode($pusher)));
+        //return $auction;
+        broadcast(new newauctionEvent(json_encode($pusher)));
 
         return back()->with('success','Form submitted successfully');
         //view('auctions.create');
