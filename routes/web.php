@@ -29,6 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/users', 'UsersController@index');
 Route::get('/approve/{id}/{startLimit}/{endLimit}', 'UsersController@approveUser');
 Route::get('/disapprove/{id}', 'UsersController@disApproveUser');
+Route::get('/user/delete/{id}', 'UsersController@deleteUser');
 
 
 //auction

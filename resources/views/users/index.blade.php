@@ -37,7 +37,7 @@
         </div>
 
 
-        <div class="modal fade in" id="user-limit-modal" tabindex="-1" role="dialog">
+        <div class="modal fade in" id="user-eid-modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -47,10 +47,33 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+                    <p><b>Front</b></p>
+                    <img id="img-eid-front" src="" class="img-fluid" alt="">
+                    <p><b>Back</b></p>
+                    <img id="img-eid-back" src="" class="img-fluid" alt="">
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary save-limit-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade in" id="user-delete-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   <p><b>Are you sure?</b></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary confirm-delete-btn">Yes</button>
                     <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
                 </div>
                 </div>
@@ -101,13 +124,15 @@
                                 <td>{{$user->email}}</td>
                                 <td>{{$user->phone}}</td>
                                 <td>{{$user->created_at}}</td>
-                                <td><button disabled class="btn btn-sm btn-danger btn-reject">Reject</button></td>
+                                <td><button data-eid-front="{{$user->EID_front_pic}}" data-eid-back="{{$user->EID_back_pic}}" class="btn btn-sm btn-primary show-eid-image">View</button></td>
                                 @if($user->approved == 1)
                                 <td><button disabled class="btn btn-sm btn-primary">Approve</button>
-                                <a href="{{url('/disapprove').'/'.$user->id}}"><button class="btn btn-sm btn-danger btn-reject">Reject</button></a></td>
+                                <a href="{{url('/disapprove').'/'.$user->id}}"><button class="btn btn-sm btn-danger btn-reject">Reject</button>
+                                <button data-user-id="{{$user->id}}" class="btn btn-sm btn-warning btn-delete">Delete</button></a></td>
                                 @else
                                 <td><button data-user-id="{{$user->id}}" class="btn btn-sm btn-primary btn-approve">Approve</button>
-                                <button disabled class="btn btn-sm btn-danger btn-reject">Reject</button></td>
+                                <button disabled class="btn btn-sm btn-danger btn-reject">Reject</button>
+                                <button data-user-id="{{$user->id}}" class="btn btn-sm btn-warning btn-delete">Delete</button></td>
                                 @endif
                             </tr>
                         @endforeach
@@ -129,6 +154,22 @@
             $("#user-limit-modal .modal-footer .save-limit-btn").attr('data-user-approve-url',"{{url('/approve')}}/"+userid+"");
         });
 
+        
+        $('.show-eid-image').click(function(){
+            var front = $(this).attr('data-eid-front');
+            var back = $(this).attr('data-eid-back');
+            $("#user-eid-modal").modal('show');
+            $("#user-eid-modal .modal-body #img-eid-front").attr('src',"{{url('/image')}}/"+front+"");
+            $("#user-eid-modal .modal-body #img-eid-back").attr('src',"{{url('/image')}}/"+back+"");
+
+        
+        });
+
+        $('.btn-delete').click(function(){
+            var userid = $(this).attr('data-user-id');
+            $("#user-delete-modal").modal('show');
+            $("#user-delete-modal .modal-footer .confirm-delete-btn").attr('data-del-url',"{{url('/user/delete')}}/"+userid+"");
+        });
 
         $('.save-limit-btn').click(function(){
             var url = $(this).attr('data-user-approve-url');
@@ -145,6 +186,10 @@
             $('<a href = "'+url+'"></a>')[0].click();
         });
 
+        $('.confirm-delete-btn').click(function(){
+            var delurl = $(this).attr('data-del-url');
+            $('<a href = "'+delurl+'"></a>')[0].click();
+        });
      
     });
 </script>

@@ -41,4 +41,15 @@ class UsersController extends Controller
             return back()->with('success','No record updated.');
         }
     }
+    public function deleteUser($id)
+    {
+        $result = User::where('id', $id)->delete();
+        if($result > 0){
+            return back()->with('success','User deleted successfully.');
+        }
+        else{
+            return back()->with('success','No record updated.');
+        }
+    }
+    
 }
