@@ -30,7 +30,8 @@ class AuctionAPI extends Controller
         //                 ->OrWhere('status','=',3)->get();
 
         $all_data = DB::select("SELECT a.id, a.Make, a.Model, a.ExactModel, a.Year, a.ReserveCost,a.status, a.StartDate, ".
-                    "a.EndDate, (SELECT path from images where images.auctionID = a.id LIMIT 1) as image FROM auctions a ");   
+                    "a.EndDate, (SELECT path from images where images.auctionID = a.id LIMIT 1) as image FROM auctions a ".
+                    "WHERE a.status = 1 OR a.status = 3);   
         foreach($all_data as $data){
             //$data->images = Images::where('auctionID', $data->id)->get('path');
             $data->highestBid =  DB::table('bidding')->where('bidding.auctionID', '=',$data->id)->max('latestBid');
