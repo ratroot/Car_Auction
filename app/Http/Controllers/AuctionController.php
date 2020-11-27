@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use App\Events\newauctionEvent;
 use Illuminate\Support\Facades\DB;
 use App\Purchased;
+use Illuminate\Support\Str;
+
 
 class AuctionController extends Controller
 {
@@ -57,21 +59,41 @@ class AuctionController extends Controller
         $end = date('Y-m-d H:i:s', strtotime($request->EndDate));
         $request['EndDate'] = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
 
+        $timeStamp = now()->timestamp;
+
         $images = new Images;
 
         //$auction = new Auction;
         //$auction->save($request->all());
         
+
+        //storing car body image
+        if ($request->hasfile('carBodyImage')){
+            $carimage = $request->file('carBodyImage');
+            if($carimage != null){
+                $name= Str::random(10).$carimage->getClientOriginalName();
+                $carimage->move(public_path().'/image/',$name);
+                $request['CarBodyImage'] = $name;
+            }
+            // foreach($request->file('carBodyImage') as $carimage){
+            //     if($carimage != null){
+            //         $name= $timeStamp.$carimage->getClientOriginalName();
+            //         $carimage->move(public_path().'/image/',$name);
+            //         $request['CarBodyImage'] = $name;
+            //     }
+                
+            // }
+        }
+        //return $request;
         $auction = Auction::create($request->all());
         $auctionID = $auction->id;
 
         $all_images = array();
-        $timeStamp = now()->timestamp;
 
         if ($request->hasfile('filename')){
             foreach($request->file('filename') as $image){
                 if($image != null){
-                    $name= $timeStamp.$image->getClientOriginalName();
+                    $name= Str::random(10).$image->getClientOriginalName();
                     $image->move(public_path().'/image/',$name);
                     $data['path'] = $name;   
                     $data['auctionID'] = $auctionID;
@@ -99,10 +121,15 @@ class AuctionController extends Controller
         $pusher['status'] = 1;
         $pusher['StartDate'] = $auction->StartDate;
         $pusher['EndDate'] = $auction->EndDate;
-        $pusher['image'] = $all_images[0]['path'];
+        if(count($all_images) > 0){
+            $pusher['image'] = $all_images[0]['path'];
+        }
+        else{
+            $pusher['image'] = null;
+        }
 
-        //return $pusher;
-        broadcast(new newauctionEvent(json_encode($pusher)));
+        return $auction;
+        //broadcast(new newauctionEvent(json_encode($pusher)));
 
         return back()->with('success','Form submitted successfully');
         //view('auctions.create');

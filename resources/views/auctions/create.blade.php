@@ -74,6 +74,19 @@
         </div>
          </div>
          </div>
+
+
+         <div class="card" style="margin-bottom:40px;">
+            <div class="card-header">{{ __('Add Car Body Image') }}</div>
+                <div class="card-body">
+                    <div class="input-group control-group" >
+                        <input type="file" name="carBodyImage" class="form-control">
+                    </div>
+                </div>
+            </div>
+         </div>
+
+
             <div class="card" style="margin-bottom:40px;">
             <div class="card-header">{{ __('Vehicle Information') }}</div>
 
@@ -184,7 +197,7 @@
                  <div class="col-lg-4">
                     <div class="form-group">
                         <label for="" class="control-label">Service History</label>
-                        <input type="text" class="form-control" name="ServiceHistory" id="ServiceHistory">
+                        <input type="text" class="form-control" name="ServiceHistory,50" id="ServiceHistory">
 
                     </div>
                  </div>
