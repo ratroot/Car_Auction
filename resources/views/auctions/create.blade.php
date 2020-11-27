@@ -197,7 +197,7 @@
                  <div class="col-lg-4">
                     <div class="form-group">
                         <label for="" class="control-label">Service History</label>
-                        <input type="text" class="form-control" name="ServiceHistory,50" id="ServiceHistory">
+                        <input type="text" class="form-control" name="ServiceHistory" id="ServiceHistory">
 
                     </div>
                  </div>

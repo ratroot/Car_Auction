@@ -9,7 +9,7 @@ class Auction extends Model
     protected $table = 'auctions';
     protected $guarded = ['filename'];
     protected $fillable = ['Make','Model','Year', 'ExactModel','Transmission', 'InteriorTrim','Specifications',
-    'EngineGlinders', 'OdoMeterReading', 'Paint', 'AccidentHistory', 'ServiceHistory,50', 'ServiceType','Body',
+    'EngineGlinders', 'OdoMeterReading', 'Paint', 'AccidentHistory', 'ServiceHistory', 'ServiceType','Body',
     'Drive', 'SteeringWheelLocation', 'CarColor', 'FuelType', 'CarNumber','EngineSize',
     'Structural_Chassis_Damage', 'ChassisRepaired', 'ChassisExtention', 'NaviagtionSystem',
     'VINPlate','ManufactureYear','ManufactureMonth', 'WarrantyMonth', 'WarrantyValidity',
