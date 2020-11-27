@@ -100,7 +100,8 @@
                             <tr>
                                 <th scope="col">Make</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Auction ID</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
                                 <th scope="col">Highest Bid</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -110,10 +111,11 @@
                             <tr>
                                 <th scope="row">{{$completed->Make}}</th>
                                 <th >{{$completed->name}}</th>
-                                <th >{{$completed->auctionID}}</th>
+                                <th >{{$completed->email}}</th>
+                                <th >{{$completed->phone}}</th>
                                 <td>{{$completed->latestBid}}</td>
                                 <td><button data-user-id="{{$completed->id}}" data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success btn-purchased">Purchased</button>
-                                <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-primary btn-reauction">Re-Auction</button></td>
+                                <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-primary btn-reauction">Negotiate</button></td>
                             </tr>
                         @endforeach
                             

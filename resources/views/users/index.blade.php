@@ -35,6 +35,29 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="modal fade in" id="user-limit-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">User EID Images</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary save-limit-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
     <div class="row justify-content-center">
    
         <div class="col-md-12">
@@ -64,7 +87,9 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
                                 <th scope="col">Created Date</th>
+                                <th scope="col">EID image</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -74,7 +99,9 @@
                                 <th scope="row">{{$user->id}}</th>
                                 <td>{{$user->name}}</td>
                                 <td>{{$user->email}}</td>
+                                <td>{{$user->phone}}</td>
                                 <td>{{$user->created_at}}</td>
+                                <td><button disabled class="btn btn-sm btn-danger btn-reject">Reject</button></td>
                                 @if($user->approved == 1)
                                 <td><button disabled class="btn btn-sm btn-primary">Approve</button>
                                 <a href="{{url('/disapprove').'/'.$user->id}}"><button class="btn btn-sm btn-danger btn-reject">Reject</button></a></td>

@@ -89,8 +89,20 @@ class AuctionController extends Controller
 
         $auction['images'] = $all_images;
 
-        //return $auction;
-        broadcast(new newauctionEvent(json_encode($auction)));
+        $pusher = array();
+
+        $pusher['Make'] = $auction->Make;
+        $pusher['Model'] = $auction->Model;
+        $pusher['Year'] = $auction->Make;
+        $pusher['ExactModel'] = $auction->ExactModel;
+        $pusher['ReserveCost'] = $auction->ReserveCost;
+        $pusher['status'] = 1;
+        $pusher['StartDate'] = $auction->StartDate;
+        $pusher['EndDate'] = $auction->EndDate;
+        $pusher['image'] = $all_images[0]['path'];
+
+        //return $pusher;
+        broadcast(new newauctionEvent(json_encode($pusher)));
 
         return back()->with('success','Form submitted successfully');
         //view('auctions.create');
@@ -109,13 +121,13 @@ class AuctionController extends Controller
 
 
     public function completed(){
-        $all_completed = DB::select("SELECT users.name,users.id, a.latestBid, auctions.id as auctionID, auctions.Make ".
+        $all_completed = DB::select("SELECT users.name,users.id, users.email, users.phone, a.latestBid, auctions.id as auctionID, auctions.Make ".
                                     "FROM `users` ".
                                     "LEFT JOIN bidding as a on a.userID = users.id ".
                                     "LEFT JOIN auctions on a.auctionID = auctions.id ".
                                     "WHERE auctions.status = 0 ".
                                     "AND a.latestBid = (SELECT MAX(b.latestBid) FROM bidding as b WHERE b.auctionID = auctions.id) ".
-                                    "GROUP BY auctions.id, users.name, users.id, a.latestBid, auctions.Make");
+                                    "GROUP BY auctions.id, users.name, users.id,users.email, users.phone, a.latestBid, auctions.Make");
 
         return view('auctions.completed',['data' => $all_completed]);
     }
