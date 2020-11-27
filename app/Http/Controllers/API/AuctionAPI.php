@@ -24,10 +24,15 @@ class AuctionAPI extends Controller
         }
 
         $response = array('data' => '');
-        $all_data = DB::table('auctions')->where('status','=',1)->OrWhere('status','=',3)->get();
+        // $all_data = DB::table('auctions')
+        //                 ->select()
+        //                 ->where('status','=',1)
+        //                 ->OrWhere('status','=',3)->get();
 
+        $all_data = DB::select("SELECT a.id, a.Make, a.Model, a.ExactModel, a.Year, a.ReserveCost,a.status, a.StartDate, ".
+                    "a.EndDate, (SELECT path from images where images.auctionID = a.id LIMIT 1) as image FROM auctions a ");   
         foreach($all_data as $data){
-            $data->images = Images::where('auctionID', $data->id)->get('path');
+            //$data->images = Images::where('auctionID', $data->id)->get('path');
             $data->highestBid =  DB::table('bidding')->where('bidding.auctionID', '=',$data->id)->max('latestBid');
             
             $currentBid =  DB::table('bidding')->where('bidding.auctionID', '=', $data->id)
@@ -60,7 +65,11 @@ class AuctionAPI extends Controller
         $auctionID = $request['auctionID'];
 
         $response = array('data' => '');
-        $all_data = DB::table('auctions')->where('id','=',$auctionID)->get();
+        $all_data = DB::table('auctions')->where('auctions.id','=',$auctionID)
+                            ->leftJoin('auctions_other_info', 'auctions.id', '=', 'auctions_other_info.auctionID')
+                            ->leftJoin('auctions_extra_info', 'auctions.id', '=', 'auctions_extra_info.auctionID')
+                            ->get();
+
 
         foreach($all_data as $data){
             $data->images = Images::where('auctionID', $data->id)->get('path');
