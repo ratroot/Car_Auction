@@ -337,18 +337,25 @@
                     </div>
                  </div>
 
-                 <div class="col-lg-4">
+                 <!-- <div class="col-lg-4">
                     <div class="form-group">
                         <label for="" class="control-label">SMC Valid Till</label>
                         <input type="text" class="form-control" name="SMC_ValidTill" id="SMC_ValidTill">
 
                     </div>
-                 </div>
+                 </div> -->
 
                  <div class="col-lg-4">
                     <div class="form-group">
                         <label for="" class="control-label">Number Of Keys</label>
                         <input type="text" class="form-control" name="NumberOfKeys" id="NumberOfKeys">
+
+                    </div>
+                 </div>
+                 <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="" class="control-label">Warranty Month</label>
+                        <input type="text" class="form-control" name="WarrantyMonth" id="WarrantyMonth">
 
                     </div>
                  </div>
@@ -417,13 +424,13 @@
 
                     </div>
                  </div> -->
-                 <div class="col-lg-4">
+                 <!-- <div class="col-lg-4">
                     <div class="form-group">
                         <label for="" class="control-label">Warranty Month</label>
                         <input type="text" class="form-control" name="WarrantyMonth" id="WarrantyMonth">
 
                     </div>
-                 </div>
+                 </div> -->
                  
 
                 </div>
