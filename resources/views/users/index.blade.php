@@ -41,13 +41,12 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">User EID Images</h5>
+                    <h5 class="modal-title">User Details</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h3> User Details </h3>
                     <p><b>Name:</b> <span id="username"></span> </p>
                     <p><b>Email:</b> <span id="email"></span> </p>
                     <p><b>Phone:</b> <span id="phone"></span></p>
@@ -119,8 +118,8 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Created Date</th>
-                                <th scope="col">View Upload</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">View Details</th>
+                                <th scope="col" style="width:340px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -173,7 +172,6 @@
             var startlimit = $(this).attr('data-start-limit');
             var endlimit = $(this).attr('data-end-limit');
 
-            console.log(username);
             
             $("#user-eid-modal .modal-body #img-eid-front").attr('src',"{{url('/image')}}/"+front+"");
             $("#user-eid-modal .modal-body #img-eid-back").attr('src',"{{url('/image')}}/"+back+"");
