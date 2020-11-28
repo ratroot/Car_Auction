@@ -1,5 +1,14 @@
 @extends('layouts.app')
-
+@section('style')
+<style>
+ label{
+     font-weight:bold;
+ }
+ .card-header{
+    font-weight:bold;
+ }
+</style>
+@endsection
 @section('content')
 <div class="container">
     

@@ -47,9 +47,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p><b>Front</b></p>
+                    <h3> User Details </h3>
+                    <p><b>Name:</b> <span id="username"></span> </p>
+                    <p><b>Email:</b> <span id="email"></span> </p>
+                    <p><b>Phone:</b> <span id="phone"></span></p>
+                    <p><b>Start Limit:</b> <span id="show_startlimit"></span></p>
+                    <p><b>End Limit:</b> <span id="show_endlimit"></span></p>
+
+                    <p><b>Front EID</b></p>
                     <img id="img-eid-front" src="" class="img-fluid" alt="">
-                    <p><b>Back</b></p>
+                    <p><b>Back EID</b></p>
                     <img id="img-eid-back" src="" class="img-fluid" alt="">
 
                 </div>
@@ -112,7 +119,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Created Date</th>
-                                <th scope="col">EID image</th>
+                                <th scope="col">View Upload</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -120,19 +127,21 @@
                         @foreach ($users as $user)
                             <tr>
                                 <th scope="row">{{$user->id}}</th>
-                                <td>{{$user->name}}</td>
-                                <td>{{$user->email}}</td>
-                                <td>{{$user->phone}}</td>
+                                <td class="tbl_username" >{{$user->name}}</td>
+                                <td class="tbl_email">{{$user->email}}</td>
+                                <td class="tbl_phone">{{$user->phone}}</td>
                                 <td>{{$user->created_at}}</td>
-                                <td><button data-eid-front="{{$user->EID_front_pic}}" data-eid-back="{{$user->EID_back_pic}}" class="btn btn-sm btn-primary show-eid-image">View</button></td>
+                                <td><button data-start-limit="{{$user->startLimit}}" data-end-limit="{{$user->endLimit}}" data-eid-front="{{$user->EID_front_pic}}" data-eid-back="{{$user->EID_back_pic}}" class="btn btn-sm btn-primary show-eid-image">View</button></td>
                                 @if($user->approved == 1)
                                 <td><button disabled class="btn btn-sm btn-primary">Approve</button>
                                 <a href="{{url('/disapprove').'/'.$user->id}}"><button class="btn btn-sm btn-danger btn-reject">Reject</button>
-                                <button data-user-id="{{$user->id}}" class="btn btn-sm btn-warning btn-delete">Delete</button></a></td>
+                                </a><button data-user-id="{{$user->id}}" class="btn btn-sm btn-warning btn-delete">Delete</button>
+                                <button data-user-id="{{$user->id}}" class="btn btn-sm btn-primary btn-approve">Change Limit</button></td>
                                 @else
                                 <td><button data-user-id="{{$user->id}}" class="btn btn-sm btn-primary btn-approve">Approve</button>
                                 <button disabled class="btn btn-sm btn-danger btn-reject">Reject</button>
-                                <button data-user-id="{{$user->id}}" class="btn btn-sm btn-warning btn-delete">Delete</button></td>
+                                <button data-user-id="{{$user->id}}" class="btn btn-sm btn-warning btn-delete">Delete</button>
+                                <button disabled data-user-id="{{$user->id}}" class="btn btn-sm btn-primary btn-approve">Change Limit</button></td>
                                 @endif
                             </tr>
                         @endforeach
@@ -158,10 +167,23 @@
         $('.show-eid-image').click(function(){
             var front = $(this).attr('data-eid-front');
             var back = $(this).attr('data-eid-back');
-            $("#user-eid-modal").modal('show');
+            var username = $(this).parent().parent().find('.tbl_username').text();
+            var email = $(this).parent().parent().find('.tbl_email').text();
+            var phone = $(this).parent().parent().find('.tbl_phone').text();
+            var startlimit = $(this).attr('data-start-limit');
+            var endlimit = $(this).attr('data-end-limit');
+
+            console.log(username);
+            
             $("#user-eid-modal .modal-body #img-eid-front").attr('src',"{{url('/image')}}/"+front+"");
             $("#user-eid-modal .modal-body #img-eid-back").attr('src',"{{url('/image')}}/"+back+"");
+            $("#user-eid-modal .modal-body #username").text(username);
+            $("#user-eid-modal .modal-body #email").text(email);
+            $("#user-eid-modal .modal-body #phone").text(phone);
+            $("#user-eid-modal .modal-body #show_startlimit").text(startlimit);
+            $("#user-eid-modal .modal-body #show_endlimit").text(endlimit);
 
+            $("#user-eid-modal").modal('show');
         
         });
 
