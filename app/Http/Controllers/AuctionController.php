@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Auction;
 use App\Images;
+use App\Invoice;
 use App\Auction_Other_Info;
 use App\Auction_Extra_Info;
 use Illuminate\Http\Request;
@@ -148,13 +149,14 @@ class AuctionController extends Controller
 
 
     public function completed(){
-        $all_completed = DB::select("SELECT users.name,users.id, users.email, users.phone, a.latestBid, auctions.id as auctionID, auctions.Make ".
+        $all_completed = DB::select("SELECT users.name,users.id, users.email, users.phone, a.latestBid, auctions.id as auctionID, auctions.Make, i.invoice_image, i.status as invoice_status ".
                                     "FROM `users` ".
                                     "LEFT JOIN bidding as a on a.userID = users.id ".
                                     "LEFT JOIN auctions on a.auctionID = auctions.id ".
+                                    "LEFT JOIN invoice as i on a.auctionID = i.auctionID ".
                                     "WHERE auctions.status = 0 ".
                                     "AND a.latestBid = (SELECT MAX(b.latestBid) FROM bidding as b WHERE b.auctionID = auctions.id) ".
-                                    "GROUP BY auctions.id, users.name, users.id,users.email, users.phone, a.latestBid, auctions.Make");
+                                    "GROUP BY auctions.id, users.name, users.id,users.email, users.phone, a.latestBid, auctions.Make, i.invoice_image, i.status");
 
         return view('auctions.completed',['data' => $all_completed]);
     }
@@ -202,6 +204,33 @@ class AuctionController extends Controller
         return back()->with('success','Record updated successfully');
 
 
+    }
+
+    public function approveInvoice($auctionID){
+
+        $updated = Invoice::where('auctionID',$auctionID)->update(['status'=> 2]);
+        if($updated > 0){
+            return back()->with('success','Record updated successfully');
+
+        }
+        else{
+            return back()->with('success','No record updated');
+
+        }
+    }
+
+    public function disapproveInvoice($auctionID){
+
+        $updated = Invoice::where('auctionID',$auctionID)->update(['status'=> 1]);
+
+        if($updated > 0){
+            return back()->with('success','Record updated successfully');
+
+        }
+        else{
+            return back()->with('success','No record updated');
+
+        }
     }
     /**
      * Show the form for editing the specified resource.

@@ -42,3 +42,7 @@ Route::get('/auction/reauction/{auctionID}/{startdate}/{enddate}', 'AuctionContr
 
 //demo
 Route::get('/notification', 'NotificationController@notification');
+
+//invoice
+Route::get('/invoice/approve/{auctionID}', 'AuctionController@approveInvoice');
+Route::get('/invoice/disapprove/{auctionID}', 'AuctionController@disapproveInvoice');

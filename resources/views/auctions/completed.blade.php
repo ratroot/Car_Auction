@@ -73,6 +73,54 @@
     </div>
 
     <!--RE AUCTION MODAL END-->
+
+    <!--INVOICE MODAL START-->
+    <div class="modal fade in" id="invoice-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">INVOICE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <p><b>INVOICE IMAGE:</b></p>
+                <img id="img-invoice" src="" class="img-fluid" alt="">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--INVOICE MODAL END-->
+
+
+    <!--Approve/disapprove modal-->
+    <div class="modal fade in" id="confirmation-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   <p><b>Are you sure?</b></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary confirm-btn">Yes</button>
+                    <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!--END -->
+
     <div class="row justify-content-center">
         <div class="col-md-12">
         @if (count($errors) > 0)
@@ -103,6 +151,8 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Highest Bid</th>
+                                <th scope="col">View Invoice</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -114,8 +164,23 @@
                                 <th >{{$completed->email}}</th>
                                 <th >{{$completed->phone}}</th>
                                 <td>{{$completed->latestBid}}</td>
+                                @if($completed->invoice_image != null)
+                                    <td ><button class="btn btn-sm btn-primary btn-show-invoice" data-image-url="{{$completed->invoice_image}}">View</button></td>
+                                @else
+                                    <td class="text-danger">Not available</td>
+                                @endif
+
+                                @if($completed->invoice_status == 1)
+                                <td class="text-danger">Unapproved</td>
+                                @elseif($completed->invoice_status == 2)
+                                <td class="text-success">Approved</td>
+                                @endif
                                 <td><button data-user-id="{{$completed->id}}" data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success btn-purchased">Purchased</button>
-                                <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-primary btn-reauction">Negotiate</button></td>
+                                <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-primary btn-reauction">Negotiate</button>
+                                <button data-auction-id="{{$completed->auctionID}}" data-action-name="approve" class="btn btn-sm btn-success btn-approve">Approve</button>
+                                <button data-auction-id="{{$completed->auctionID}}" data-action-name="disapprove" class="btn btn-sm btn-danger btn-disapprove">Disapprove</button>
+
+                                </td>
                             </tr>
                         @endforeach
                             
@@ -179,6 +244,40 @@
                 url = url+'/'+StartDate+'/'+EndDate+'';
             }
             $('<a href = "'+url+'"></a>')[0].click();
+        });
+
+
+        $('.btn-show-invoice').click(function(){
+
+            var image_url = $(this).attr('data-image-url');
+
+            $("#invoice-modal").modal('show');
+            $("#invoice-modal .modal-body #img-invoice").attr('src',"{{url('/image')}}/"+image_url+"");
+
+        });
+
+
+        $('.btn-approve, .btn-disapprove').click(function(){
+
+            var action_type = $(this).attr('data-action-name');
+            var auctionID = $(this).attr('data-auction-id');
+
+            $("#confirmation-modal").modal('show');
+            if(action_type == "approve"){
+                $("#confirmation-modal .modal-footer .confirm-btn").attr('data-url',"{{url('/invoice/approve')}}/"+auctionID+"");
+            }
+            else{
+                $("#confirmation-modal .modal-footer .confirm-btn").attr('data-url',"{{url('/invoice/disapprove')}}/"+auctionID+"");
+
+            }
+
+        });
+
+        $('.confirm-btn').click(function(){
+
+            var url = $(this).attr('data-url');
+            $('<a href = "'+url+'"></a>')[0].click();
+
         });
     });
 </script>
