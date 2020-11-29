@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 use App\Auction;
 use App\Images;
@@ -114,11 +113,12 @@ class AuctionAPI extends Controller
             return response()->json('user id is required');
         }
 
-        $wonBids =  DB::select("SELECT bidding.latestBid, auctions.id as auctionID, auctions.Make, auctions.Model, auctions.Year, (SELECT path from images where images.auctionID = auctions.id LIMIT 1) as image ".
+        $wonBids =  DB::select("SELECT bidding.latestBid, auctions.id as auctionID, auctions.Make, auctions.Model, auctions.Year, invoice.status as invoice_status, (SELECT path from images where images.auctionID = auctions.id LIMIT 1) as image ".
                                 "FROM bidding ".
                                 "LEFT JOIN auctions on bidding.auctionID = auctions.id ".
+                                "LEFT JOIN invoice on bidding.auctionID = invoice.auctionID ".
                                 "WHERE auctions.status = 0 AND bidding.userID = $userID ".
-                                "AND bidding.latestBid = (SELECT MAX(b.latestBid) from bidding b where b.auctionID = auctions.id)");  
+                                "AND bidding.latestBid = (SELECT MAX(b.latestBid) from bidding b where b.auctionID = auctions.id and b.userID = $userID)");  
         
         return response()->json(['data' => $wonBids]);
 
