@@ -34,3 +34,7 @@ Route::get('purchased', 'API\AuctionAPI@purchased');
 Route::get('auction', 'API\AuctionAPI@index');
 Route::get('wonbids', 'API\AuctionAPI@wonbids');
 
+//invoice
+Route::get('saveInvoiceData', 'API\InvoiceController@saveInvoiceData');
+Route::get('getInvoice', 'API\InvoiceController@getInvoice');
+Route::post('saveInvoiceImage', 'API\InvoiceController@saveInvoiceImage');

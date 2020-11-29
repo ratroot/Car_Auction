@@ -7,6 +7,10 @@ use  App\Auction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\NotificationController;
+use Illuminate\Http\Request;
+
+
+use App\Http\Controllers\API\InvoiceController;
 
 class changeAuctionStatus extends Command
 {
@@ -41,22 +45,24 @@ class changeAuctionStatus extends Command
      */
     public function handle()
     {
-        // $get_ids = DB::table('auctions')->select('id')->where('status','=','1')->where('EndDate','<',Carbon::now())->get();
+        $get_ids =  DB::table('auctions')->select('id')->where('EndDate','<',Carbon::now())
+                                            ->where(function($query){
+                                                $query->where('status','=',1)
+                                                    ->orWhere('status','=',3);
+                                            })->get()->pluck('id');
         
         $updated = DB::table('auctions')->where('EndDate','<',Carbon::now())
                                         ->where(function($query){
                                             $query->where('status','=',1)
                                                    ->orWhere('status','=',3);
                                         })->update(['status'=> 0]);
-        //$updated = DB::raw('UPDATE auctions SET status = 0 WHERE EndDate < "'.Carbon::now().'" AND (status = 1 OR status = 3)');
-        //echo $updated;
-        // $controller = new NotificationController();
-        // $controller->notification();
-
-        // foreach($get_ids as $item ){
-        //     //$item->update(['status'=> 1]);
-        //     echo $item->id;
-        // }
+         // Instantiate other controller class in this controller's method
+        //echo $get_ids;
+        $invoice = new InvoiceController;
+        // Use other controller's method in this controller's method
+        $request = new Request;
+        $request['ids'] = $get_ids;
+        $invoice->saveInvoiceData($request);
         
     }
 }
