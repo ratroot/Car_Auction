@@ -174,6 +174,8 @@
                                 <td class="text-danger">Unapproved</td>
                                 @elseif($completed->invoice_status == 2)
                                 <td class="text-success">Approved</td>
+                                @else
+                                <td class="text-danger">Not available</td>
                                 @endif
                                 <td><button data-user-id="{{$completed->id}}" data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success btn-purchased">Purchased</button>
                                 <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-primary btn-reauction">Negotiate</button>
