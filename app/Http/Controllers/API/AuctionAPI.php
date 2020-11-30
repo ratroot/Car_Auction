@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Auction;
 use App\Images;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AuctionAPI extends Controller
@@ -18,6 +18,7 @@ class AuctionAPI extends Controller
 
     public function index(Request $request)
     {
+        //return Carbon::now();
         $userID = $request['userID'];
         if($userID == null || $userID == 0 ){
             return response()->json('user id is required');
@@ -31,7 +32,7 @@ class AuctionAPI extends Controller
 
         $all_data = DB::select("SELECT a.id, a.Make, a.Model, a.ExactModel, a.Year, a.ReserveCost,a.status, a.StartDate, ".
                     "a.EndDate, (SELECT path from images where images.auctionID = a.id LIMIT 1) as image FROM auctions a ".
-                    "WHERE a.status = 1 OR a.status = 3");   
+                    "WHERE a.EndDate > '".Carbon::now()."' AND (a.status = 1 OR a.status = 3)");   
         foreach($all_data as $data){
             //$data->images = Images::where('auctionID', $data->id)->get('path');
             $data->highestBid =  DB::table('bidding')->where('bidding.auctionID', '=',$data->id)->max('latestBid');

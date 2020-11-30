@@ -209,7 +209,7 @@ class AuctionController extends Controller
 
     public function approveInvoice($auctionID){
 
-        $updated = Invoice::where('auctionID',$auctionID)->update(['status'=> 2]);
+        $updated = Invoice::where('auctionID',$auctionID)->update(['status'=> 4]);
         if($updated > 0){
             return back()->with('success','Record updated successfully');
 
@@ -222,7 +222,7 @@ class AuctionController extends Controller
 
     public function disapproveInvoice($auctionID){
 
-        $updated = Invoice::where('auctionID',$auctionID)->update(['status'=> 1]);
+        $updated = Invoice::where('auctionID',$auctionID)->update(['status'=> 3]);
 
         if($updated > 0){
             return back()->with('success','Record updated successfully');

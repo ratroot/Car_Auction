@@ -53,7 +53,7 @@ class InvoiceController extends Controller
                 $invoice_image_name= Str::random(10).$invoice_image->getClientOriginalName();
                 $invoice_image->move(public_path().'/image/',$invoice_image_name);
 
-                $updateImage = DB::table('invoice')->where('auctionID','=',$auctionID)->update(['invoice_image'=>$invoice_image_name]); 
+                $updateImage = DB::table('invoice')->where('auctionID','=',$auctionID)->update(['invoice_image'=>$invoice_image_name, 'status'=> 2]); 
             }
 
             if($updateImage > 0){

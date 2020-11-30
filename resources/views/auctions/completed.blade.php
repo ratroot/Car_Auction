@@ -171,11 +171,15 @@
                                 @endif
 
                                 @if($completed->invoice_status == 1)
-                                <td class="text-danger">Unapproved</td>
+                                <td class="text-warning"><b>Pending</b></td>
                                 @elseif($completed->invoice_status == 2)
-                                <td class="text-success">Approved</td>
+                                <td class="text-secondary"><b>Pending Payment</b></td>
+                                @elseif($completed->invoice_status == 3)
+                                <td class="text-danger"><b>Disapproved</b></td>
+                                @elseif($completed->invoice_status == 4)
+                                <td class="text-success"><b>Approved</b></td>
                                 @else
-                                <td class="text-danger">Not available</td>
+                                <td class="text-danger"></td>
                                 @endif
                                 <td><button data-user-id="{{$completed->id}}" data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success btn-purchased">Purchased</button>
                                 <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-primary btn-reauction">Negotiate</button>
