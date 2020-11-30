@@ -114,6 +114,7 @@ class AuctionController extends Controller
 
         $pusher = array();
 
+        $pusher['auctionID'] = $auctionID;
         $pusher['Make'] = $auction->Make;
         $pusher['Model'] = $auction->Model;
         $pusher['Year'] = $auction->Make;
