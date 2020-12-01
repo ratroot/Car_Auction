@@ -165,7 +165,14 @@
                                 <th >{{$completed->email}}</th>
                                 <th >{{$completed->phone}}</th>
                                 <td>{{$completed->latestBid}}</td>
-                                <td><button data-device-id="{{$completed->fcm_token}}" class="btn btn-sm btn-primary" onclick="copyToken(this);">Copy</button></td>
+                                <td>
+                                @if($completed->fcm_token != null || $completed->fcm_token != "")
+                                    <button data-device-id="{{$completed->fcm_token}}" class="btn btn-sm btn-primary" onclick="copyToken(this);">Copy</button>
+                                @else
+                                    <p class="text-danger">Not available</p>
+                                @endif
+                                </td>
+
                                 @if($completed->invoice_image != null)
                                     <td ><button class="btn btn-sm btn-primary btn-show-invoice" data-image-url="{{$completed->invoice_image}}">View</button></td>
                                 @else
