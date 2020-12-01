@@ -18,8 +18,8 @@ class UsersController extends Controller
     
     public function index()
     {
-        //$users = User::all();
-        $users = DB::select("SELECT users.*, (SELECT userDeviceID FROM bidding where userID = users.id order by bidding.id desc Limit 1) as fcm_token FROM users");
+        $users = User::all();
+        //$users = DB::select("SELECT users.*, (SELECT userDeviceID FROM bidding where userID = users.id order by bidding.id desc Limit 1) as fcm_token FROM users");
         //return $users;
         return view('users.index',['users' => $users]);
     }

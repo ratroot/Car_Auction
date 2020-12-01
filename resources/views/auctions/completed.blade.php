@@ -151,6 +151,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Highest Bid</th>
+                                <th scope="col">Notification token</th>
                                 <th scope="col">View Invoice</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" style="width:340px;">Action</th>
@@ -164,6 +165,7 @@
                                 <th >{{$completed->email}}</th>
                                 <th >{{$completed->phone}}</th>
                                 <td>{{$completed->latestBid}}</td>
+                                <td><button data-device-id="{{$completed->fcm_token}}" class="btn btn-sm btn-primary" onclick="copyToken(this);">Copy</button></td>
                                 @if($completed->invoice_image != null)
                                     <td ><button class="btn btn-sm btn-primary btn-show-invoice" data-image-url="{{$completed->invoice_image}}">View</button></td>
                                 @else
@@ -201,6 +203,21 @@
 
 @push('scripts')
 <script type="text/javascript">
+
+    function copyToken(element){
+        const el = document.createElement('textarea');
+        el.value = element.getAttribute('data-device-id');
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+
+        alert("Copied");
+    }
+
     $(document).ready(function() {
         $('.btn-purchased').click(function(){
             var userid = $(this).attr('data-user-id');
