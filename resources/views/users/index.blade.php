@@ -118,6 +118,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Created Date</th>
+                                <th scope="col">Notification Token</th>
                                 <th scope="col">View Details</th>
                                 <th scope="col" style="width:340px;">Action</th>
                             </tr>
@@ -130,6 +131,7 @@
                                 <td class="tbl_email">{{$user->email}}</td>
                                 <td class="tbl_phone">{{$user->phone}}</td>
                                 <td>{{$user->created_at}}</td>
+                                <td>{{$user->fcm_token}}</td>
                                 <td><button data-start-limit="{{$user->startLimit}}" data-end-limit="{{$user->endLimit}}" data-eid-front="{{$user->EID_front_pic}}" data-eid-back="{{$user->EID_back_pic}}" class="btn btn-sm btn-primary show-eid-image">View</button></td>
                                 @if($user->approved == 1)
                                 <td><button disabled class="btn btn-sm btn-primary">Approve</button>
