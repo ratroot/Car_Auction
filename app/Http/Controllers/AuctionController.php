@@ -187,20 +187,38 @@ class AuctionController extends Controller
         $enddate = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
 
         Auction::where('id',$auctionID)->update(['status' => 3, 'StartDate'=>$startdate, 'EndDate'=>$enddate]);
-        $auction = Auction::where('id',$auctionID)->get();
+        // $auction = Auction::where('id',$auctionID)->get();
 
-        $auction[0]->negotiated = true;
-        $auction[0]->images = Images::where('auctionID', $auctionID)->get('path');
+        // $auction[0]->negotiated = true;
+        // $image = Images::where('auctionID', $auctionID)->get('path');
 
-        $data = $auction[0];
-        // $purchased = new Purchased;
-        // $purchased->userID = $userID;
-        // $purchased->auctionID = $auctionID;
-        // $purchased->auctionPrice = $price;
-        // $purchased->auctionPriceAndTax = $pricetax;
-        // $purchased->save();
-        //return $data;
-        broadcast(new newauctionEvent(json_encode($data)));
+        // $auction[0]->images = Images::where('auctionID', $auctionID)->get('path');
+
+        $auction = DB::select("SELECT a.id as auctionID, a.Make, a.Model, a.ExactModel, a.Year, a.ReserveCost,a.status, a.StartDate, ".
+                    "a.EndDate, (SELECT path from images where images.auctionID = a.id LIMIT 1) as image FROM auctions a ".
+                    "WHERE a.id = $auctionID");  
+
+        //$data = $auction[0];
+        $pusher = array();
+
+        
+
+        if(count($auction) > 0){
+            $pusher['auctionID'] = $auctionID;
+            $pusher['Make'] = $auction[0]->Make;
+            $pusher['Model'] = $auction[0]->Model;
+            $pusher['Year'] = $auction[0]->Year;
+            $pusher['ExactModel'] = $auction[0]->ExactModel;
+            $pusher['ReserveCost'] = $auction[0]->ReserveCost;
+            $pusher['status'] = 3;
+            $pusher['StartDate'] = $auction[0]->StartDate;
+            $pusher['EndDate'] = $auction[0]->EndDate;
+            $pusher['negotiated'] = true;
+            $pusher['image'] = $auction[0]->image;
+        }
+        
+        //return $pusher;
+        broadcast(new newauctionEvent(json_encode($pusher)));
 
         return back()->with('success','Record updated successfully');
 
