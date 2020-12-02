@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="modal fade in" id="purchased-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -151,10 +151,11 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Highest Bid</th>
-                                <th scope="col">Notification token</th>
-                                <th scope="col">View Invoice</th>
-                                <th scope="col">Status</th>
-                                <th scope="col" style="width:340px;">Action</th>
+                                <th scope="col">Notification Token</th>
+                                <th scope="col">Payment Receipt</th>
+                                <th scope="col">Current Status</th>
+                                <th scope="col">Change Status</th>
+                                <th scope="col" style="width:300px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -180,20 +181,38 @@
                                 @endif
 
                                 @if($completed->invoice_status == 1)
-                                <td class="text-warning"><b>Pending</b></td>
+                                <td class="text-secondary"><b>Due</b></td>
                                 @elseif($completed->invoice_status == 2)
-                                <td class="text-secondary"><b>Pending Payment</b></td>
+                                <td class="text-warning"><b>Pending Overdue</b></td>
                                 @elseif($completed->invoice_status == 3)
-                                <td class="text-danger"><b>Disapproved</b></td>
+                                <td class="text-success"><b>Paid</b></td>
                                 @elseif($completed->invoice_status == 4)
-                                <td class="text-success"><b>Approved</b></td>
+                                <td class="text-danger"><b>Disapprove</b></td>
                                 @else
                                 <td class="text-danger"></td>
                                 @endif
+                                <td style="padding-right:0;padding-left:0;">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                             <select data-auction-id="{{$completed->auctionID}}" class="form-control change-status" name="" >
+                                                <option value="0">SELECT</option>
+                                                <option value="1">Due</option>
+                                                <option value="2">Pending Overdue</option>
+                                                <option value="3">Paid</option>
+                                                <option value="4">Disapprove</option>
+                                             </select>
+                                        </div>
+                                    </div> 
+                                </td>
                                 <td><button data-user-id="{{$completed->id}}" data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success btn-purchased">Purchased</button>
                                 <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-primary btn-reauction">Negotiate</button>
-                                <button data-auction-id="{{$completed->auctionID}}" data-action-name="approve" class="btn btn-sm btn-success btn-approve">Approve</button>
-                                <button data-auction-id="{{$completed->auctionID}}" data-action-name="disapprove" class="btn btn-sm btn-danger btn-disapprove">Disapprove</button>
+                                <!-- <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-secondary" style="margin-top:5px;">Upload Invoice</button> -->
+                                <label style="margin:0" for="upload-invoice" class="btn btn-sm btn-secondary">Select Invoice</label>
+                                <input type="file" style="display:none" id="upload-invoice">
+                                <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success" style="margin-top:5px;">Upload Invoice</button>
+
+                                <!-- <button data-auction-id="{{$completed->auctionID}}" data-action-name="approve" class="btn btn-sm btn-success btn-approve">Approve</button>
+                                <button data-auction-id="{{$completed->auctionID}}" data-action-name="disapprove" class="btn btn-sm btn-danger btn-disapprove">Disapprove</button> -->
 
                                 </td>
                             </tr>
@@ -261,6 +280,7 @@
 
         });
 
+
         $('.save-reauction-btn').click(function(){
             var url = $(this).attr('data-reauction-url');
             var StartDate = $("#StartDate").val();
@@ -308,6 +328,15 @@
             var url = $(this).attr('data-url');
             $('<a href = "'+url+'"></a>')[0].click();
 
+        });
+
+        $('.change-status').change(function(){
+            var auctionID = $(this).attr('data-auction-id');
+            var val = $(this).val();
+            if(val == 0)
+                return;
+            $("#confirmation-modal").modal('show');
+            $("#confirmation-modal .modal-footer .confirm-btn").attr('data-url',"{{url('/invoice/changestatus')}}/"+auctionID+"/"+val+"");
         });
     });
 </script>

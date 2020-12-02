@@ -46,3 +46,4 @@ Route::get('/notification', 'NotificationController@notification');
 //invoice
 Route::get('/invoice/approve/{auctionID}', 'AuctionController@approveInvoice');
 Route::get('/invoice/disapprove/{auctionID}', 'AuctionController@disapproveInvoice');
+Route::get('/invoice/changestatus/{auctionID}/{value}', 'AuctionController@changeinvoicestatus');

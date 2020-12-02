@@ -251,6 +251,19 @@ class AuctionController extends Controller
 
         }
     }
+
+    public function changeinvoicestatus($auctionID, $value){
+
+        $updated = Invoice::where('auctionID',$auctionID)->update(['status'=> $value]);
+
+        if($updated > 0){
+            return back()->with('success','Record updated successfully');
+        }
+        else{
+            return back()->with('success','No record updated');
+
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *

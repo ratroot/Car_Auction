@@ -120,7 +120,7 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'EIDnumber' => $data['EIDnumber'],
-                'DOB' => $data['EIDnumber'],
+                'DOB' => $data['DOB'],
                 'phone' => $data['phone'],
                 'profile_pic' => $profile_pic_name,
                 'EID_front_pic' => $EID_front_pic_name,
