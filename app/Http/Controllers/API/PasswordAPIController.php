@@ -24,7 +24,7 @@ class PasswordAPIController extends Controller
         $exist = User::where('email',$email)->get();
 
         if(count($exist) > 0){
-            $token = Str::random(50);
+            $token = rand(100000,999999);
             User::where('email',$email)->update(['remember_token'=> $token]);
             Mail::to($email)->send(new TestEmail($token));
             if(count(Mail::failures()) > 0 ) {
