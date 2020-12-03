@@ -1,6 +1,29 @@
 @extends('layouts.app')
-
+@section('style')
+<style>
+ .upload-invoice{
+     display:none;
+ }
+ .loader{
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    top: 0;
+    background: rgba(255,255,255,0.7);
+    display:flex;
+    justify-contents: center;
+ }
+</style>
+@endsection
 @section('content')
+<div class="justify-content-center loader" style="display:none !important">
+    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+    <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
 <div class="container-fluid">
     <div class="modal fade in" id="purchased-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -118,8 +141,8 @@
                 </div>
                 </div>
             </div>
-        </div>
-        <!--END -->
+    </div>
+    <!--END -->
 
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -159,6 +182,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <?php $i = 1 ?>
                         @foreach ($data as $completed)
                             <tr>
                                 <th scope="row">{{$completed->Make}}</th>
@@ -191,6 +215,8 @@
                                 @else
                                 <td class="text-danger"></td>
                                 @endif
+
+                                @if($completed->invoice_status != null)
                                 <td style="padding-right:0;padding-left:0;">
                                     <div class="col-lg-12">
                                         <div class="form-group">
@@ -204,18 +230,22 @@
                                         </div>
                                     </div> 
                                 </td>
+                                @else
+                                <td class="text-secondary">Upload an invoice</td>
+                                @endif
                                 <td><button data-user-id="{{$completed->id}}" data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success btn-purchased">Purchased</button>
                                 <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-primary btn-reauction">Negotiate</button>
                                 <!-- <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-secondary" style="margin-top:5px;">Upload Invoice</button> -->
-                                <label style="margin:0" for="upload-invoice" class="btn btn-sm btn-secondary">Select Invoice</label>
-                                <input type="file" style="display:none" id="upload-invoice">
-                                <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success" style="margin-top:5px;">Upload Invoice</button>
+                                <label style="margin:0" for="select-invoice-{{$i}}" class="btn btn-sm btn-secondary">Select Invoice</label>
+                                <input type="file" style="display:none" class="select-invoice" id="select-invoice-{{$i}}">
+                                <button data-auction-id="{{$completed->auctionID}}" class="btn btn-sm btn-success upload-invoice" style="margin-top:5px;">Upload Invoice</button>
 
                                 <!-- <button data-auction-id="{{$completed->auctionID}}" data-action-name="approve" class="btn btn-sm btn-success btn-approve">Approve</button>
                                 <button data-auction-id="{{$completed->auctionID}}" data-action-name="disapprove" class="btn btn-sm btn-danger btn-disapprove">Disapprove</button> -->
 
                                 </td>
                             </tr>
+                        <?php $i = $i + 1 ?>
                         @endforeach
                             
                         </tbody>
@@ -337,6 +367,49 @@
                 return;
             $("#confirmation-modal").modal('show');
             $("#confirmation-modal .modal-footer .confirm-btn").attr('data-url',"{{url('/invoice/changestatus')}}/"+auctionID+"/"+val+"");
+        });
+
+        $(".select-invoice").change(function(){
+            $(this).siblings('.upload-invoice').show();
+        });
+
+
+        $(".upload-invoice").click(function(){
+            $(".loader").show();
+            let file = $(this).siblings('input[type=file]');
+            var auctionID = $(this).attr('data-auction-id');
+            //console.log(file);
+            var fd = new FormData();
+            var files = $(file)[0].files;
+
+            if(auctionID == null || auctionID == undefined || auctionID == ""){
+                $(".loader").hide();
+                alert("An error occured please contact your system admin");
+            }
+            // Check file selected or not
+            if(files.length > 0 ){
+                fd.append('invoice_image',files[0]);
+                fd.append('auctionID',auctionID);
+
+                $.ajax({
+                    url: 'api/uploadinvoice',
+                    type: 'post',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        alert(response.response);
+                        location.reload();
+                    },
+                    complete: function(){
+                        $(".loader").hide();
+                    }
+                });
+            }
+            else{
+                 alert("Please select a file.");
+            }
+            
         });
     });
 </script>

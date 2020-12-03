@@ -38,6 +38,7 @@ Route::get('wonbids', 'API\AuctionAPI@wonbids');
 Route::get('saveInvoiceData', 'API\InvoiceController@saveInvoiceData');
 Route::get('getInvoice', 'API\InvoiceController@getInvoice');
 Route::post('saveInvoiceImage', 'API\InvoiceController@saveInvoiceImage');
+Route::post('uploadinvoice', 'API\InvoiceController@uploadinvoice');
 
 //Password
 Route::get('resetPassword', 'API\PasswordAPIController@resetPassword');
