@@ -45,24 +45,25 @@ class changeAuctionStatus extends Command
      */
     public function handle()
     {
-        $get_ids =  DB::table('auctions')->select('id')->where('EndDate','<',Carbon::now())
-                                            ->where(function($query){
-                                                $query->where('status','=',1)
-                                                    ->orWhere('status','=',3);
-                                            })->get()->pluck('id');
+        // $get_ids =  DB::table('auctions')->select('id')->where('EndDate','<',Carbon::now())
+        //                                     ->where(function($query){
+        //                                         $query->where('status','=',1)
+        //                                             ->orWhere('status','=',3);
+        //                                     })->get()->pluck('id');
         
         $updated = DB::table('auctions')->where('EndDate','<',Carbon::now())
                                         ->where(function($query){
                                             $query->where('status','=',1)
                                                    ->orWhere('status','=',3);
                                         })->update(['status'=> 0]);
-         // Instantiate other controller class in this controller's method
+        //Instantiate other controller class in this controller's method
         //echo $get_ids;
-        $invoice = new InvoiceController;
-        // Use other controller's method in this controller's method
-        $request = new Request;
-        $request['ids'] = $get_ids;
-        $invoice->saveInvoiceData($request);
+        //
+        // $invoice = new InvoiceController;
+        // //Use other controller's method in this controller's method
+        // $request = new Request;
+        // $request['ids'] = $get_ids;
+        // $invoice->saveInvoiceData($request);
         
     }
 }
