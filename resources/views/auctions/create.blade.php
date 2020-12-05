@@ -1317,7 +1317,7 @@
                     </div>
                  </div>
 
-               
+                <input type="hidden" name="timezoneoffset" id="timezoneoffset">
 
                 </div>
 
@@ -1336,7 +1336,10 @@
 
 @push('scripts')
 <script type="text/javascript">
+
+    $("#timezoneoffset").val(new Date().getTimezoneOffset());
     $(document).ready(function() {
+
       $(".btn-success").click(function(){ 
           var html = $(".clone").html();
           $(".increment").after(html);

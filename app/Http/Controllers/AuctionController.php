@@ -55,10 +55,14 @@ class AuctionController extends Controller
     {
 
         $start = date('Y-m-d H:i:s', strtotime($request->StartDate));
-        $request['StartDate'] = Carbon::parse($start,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+        $request['StartDate'] = Carbon::parse($start)->addMinutes($request->timezoneoffset)->format('Y-m-d H:i:s');
+
 
         $end = date('Y-m-d H:i:s', strtotime($request->EndDate));
-        $request['EndDate'] = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+        //$request['EndDate'] = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+        $request['EndDate'] = Carbon::parse($end)->addMinutes($request->timezoneoffset)->format('Y-m-d H:i:s');
+
+        //return $request['StartDate']." ".$request->EndDate;
 
         $timeStamp = now()->timestamp;
 
@@ -178,13 +182,16 @@ class AuctionController extends Controller
     }
 
 
-    public function reauction($auctionID, $startdate, $enddate)
+    public function reauction($auctionID, $startdate, $enddate,$timezoneoffset)
     {
         $start = date('Y-m-d H:i:s', strtotime($startdate));
-        $startdate = Carbon::parse($start,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+        //$startdate = Carbon::parse($start,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+        $startdate = Carbon::parse($start)->addMinutes($timezoneoffset)->format('Y-m-d H:i:s');
 
         $end = date('Y-m-d H:i:s', strtotime($enddate));
-        $enddate = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+        //$enddate = Carbon::parse($end,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
+        $enddate = Carbon::parse($end)->addMinutes($timezoneoffset)->format('Y-m-d H:i:s');
+
 
         Auction::where('id',$auctionID)->update(['status' => 3, 'StartDate'=>$startdate, 'EndDate'=>$enddate]);
         // $auction = Auction::where('id',$auctionID)->get();

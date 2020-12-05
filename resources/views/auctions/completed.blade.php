@@ -315,13 +315,13 @@
             var url = $(this).attr('data-reauction-url');
             var StartDate = $("#StartDate").val();
             var EndDate = $("#EndDate").val();
-
+            var timezoneoffset = new Date().getTimezoneOffset();
             if(StartDate == '' || EndDate == ''){
                 alert('Please add start and end date & time');
                 return;
             }
             else{
-                url = url+'/'+StartDate+'/'+EndDate+'';
+                url = url+'/'+StartDate+'/'+EndDate+'/'+timezoneoffset+'';
             }
             $('<a href = "'+url+'"></a>')[0].click();
         });
