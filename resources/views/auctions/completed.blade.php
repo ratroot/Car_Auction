@@ -198,8 +198,8 @@
                                 @endif
                                 </td>
 
-                                @if($completed->invoice_image != null)
-                                    <td ><button class="btn btn-sm btn-primary btn-show-invoice" data-image-url="{{$completed->invoice_image}}">View</button></td>
+                                @if($completed->payment_proof != null)
+                                    <td ><button class="btn btn-sm btn-primary btn-show-invoice" data-image-url="{{$completed->payment_proof}}">View</button></td>
                                 @else
                                     <td class="text-danger">Not available</td>
                                 @endif

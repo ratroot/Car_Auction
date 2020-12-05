@@ -154,14 +154,14 @@ class AuctionController extends Controller
 
 
     public function completed(){
-        $all_completed = DB::select("SELECT users.name,users.id, users.email, users.phone, a.latestBid, auctions.id as auctionID, auctions.Make, i.invoice_image, i.status as invoice_status, (SELECT userDeviceID FROM bidding where userID = users.id order by bidding.id desc Limit 1) as fcm_token ".
+        $all_completed = DB::select("SELECT users.name,users.id, users.email, users.phone, a.latestBid, auctions.id as auctionID, auctions.Make, i.payment_proof, i.status as invoice_status, (SELECT userDeviceID FROM bidding where userID = users.id order by bidding.id desc Limit 1) as fcm_token ".
                                     "FROM `users` ".
                                     "LEFT JOIN bidding as a on a.userID = users.id ".
                                     "LEFT JOIN auctions on a.auctionID = auctions.id ".
                                     "LEFT JOIN invoice as i on a.auctionID = i.auctionID ".
                                     "WHERE auctions.status = 0 ".
                                     "AND a.latestBid = (SELECT MAX(b.latestBid) FROM bidding as b WHERE b.auctionID = auctions.id) ".
-                                    "GROUP BY auctions.id, users.name, users.id,users.email, users.phone, a.latestBid, auctions.Make, i.invoice_image, i.status");
+                                    "GROUP BY auctions.id, users.name, users.id,users.email, users.phone, a.latestBid, auctions.Make, i.payment_proof, i.status");
 
         return view('auctions.completed',['data' => $all_completed]);
     }
