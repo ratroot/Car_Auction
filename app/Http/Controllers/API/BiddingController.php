@@ -20,15 +20,36 @@ class BiddingController extends Controller
         $latestBid = $request['Latestbid'];
         $userDeviceID = $request['Usertoken'];
         
-        $bid = new Bidding;
-        $bid->auctionID = $auctionID;
-        $bid->userID = $userID;
-        $bid->latestBid = $latestBid;
-        $bid->userDeviceID = $userDeviceID;
 
-        $bid->save();
+        $highestBid = DB::table("bidding")->where('auctionID','=',$auctionID)->max('latestBid');
 
-        broadcast(new testEvent($bid));
+        if($latestBid > $highestBid){
+            
+            $bid = new Bidding;
+            $bid->auctionID = $auctionID;
+            $bid->userID = $userID;
+            $bid->latestBid = $latestBid;
+            $bid->userDeviceID = $userDeviceID;
+    
+            $bid->save();
+    
+            broadcast(new testEvent($bid));
+
+            return "true";
+        }
+        else{
+            return "false";
+        }
+
+        // $bid = new Bidding;
+        // $bid->auctionID = $auctionID;
+        // $bid->userID = $userID;
+        // $bid->latestBid = $latestBid;
+        // $bid->userDeviceID = $userDeviceID;
+
+        // $bid->save();
+
+        // broadcast(new testEvent($bid));
     }
 
     public function getBidOnAuction(Request $request){
