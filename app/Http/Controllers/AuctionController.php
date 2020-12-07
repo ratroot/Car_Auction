@@ -168,8 +168,8 @@ class AuctionController extends Controller
                                     "LEFT JOIN invoice as i on a.auctionID = i.auctionID ".
                                     "WHERE auctions.status = 0 ".
                                     "AND a.latestBid = (SELECT MAX(b.latestBid) FROM bidding as b WHERE b.auctionID = auctions.id) ".
-                                    "ORDER BY a.id desc ".
-                                    "GROUP BY auctions.id, users.name, users.id,users.email, users.phone, a.latestBid, auctions.Make, i.payment_proof, i.status");
+                                    "GROUP BY auctions.id, users.name, users.id,users.email, users.phone, a.latestBid, auctions.Make, i.payment_proof, i.status ".
+                                    "ORDER BY a.id desc ");
 
         return view('auctions.completed',['data' => $all_completed]);
     }
