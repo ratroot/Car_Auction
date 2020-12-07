@@ -13,7 +13,7 @@ use App\Events\newauctionEvent;
 use Illuminate\Support\Facades\DB;
 use App\Purchased;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Auth;
 
 class AuctionController extends Controller
 {
@@ -42,7 +42,14 @@ class AuctionController extends Controller
      */
     public function create()
     {
-        return view('auctions.create');
+        // if(Auth::user()->approved == 0){
+             return view('auctions.create');
+        // }
+        // else{
+        //     Auth::logout();
+        //     return redirect('/login');
+        // }
+
     }
 
     /**
@@ -161,6 +168,7 @@ class AuctionController extends Controller
                                     "LEFT JOIN invoice as i on a.auctionID = i.auctionID ".
                                     "WHERE auctions.status = 0 ".
                                     "AND a.latestBid = (SELECT MAX(b.latestBid) FROM bidding as b WHERE b.auctionID = auctions.id) ".
+                                    "ORDER BY a.id desc ".
                                     "GROUP BY auctions.id, users.name, users.id,users.email, users.phone, a.latestBid, auctions.Make, i.payment_proof, i.status");
 
         return view('auctions.completed',['data' => $all_completed]);
