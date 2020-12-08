@@ -33,7 +33,7 @@ class BiddingController extends Controller
         $myUserId = 0;
 
         //$highestBid = DB::table("bidding")->select('userID',DB::raw('MAX(latestBid) as latestBid'))->where('auctionID','=',$auctionID)->groupBy('userID')->limit(1)->get();
-        $highestBid = DB::select("SELECT userID, latestBid From bidding where latestBid = (Select MAX(latestBid) from bidding b where b.auctionID = $auctionID) LIMIT 1");
+        $highestBid = DB::select("SELECT userID, latestBid From bidding where latestBid = (Select MAX(latestBid) from bidding b where b.auctionID = $auctionID)");
 
         //return $highestBid;
 
@@ -42,10 +42,10 @@ class BiddingController extends Controller
             $myBid = $item->latestBid;
         }
 
-        //return $myUserId;
-
+        return $highestBid;
+       // return $myUserId." ".$userID." ".$latestBid." ".$myBid;
         if($myUserId == $userID && $latestBid == $myBid){
-            broadcast(new testEvent($bid));
+            //broadcast(new testEvent($bid));
             return "true";
         }
         else{
