@@ -21,25 +21,53 @@ class BiddingController extends Controller
         $userDeviceID = $request['Usertoken'];
         
 
-        $highestBid = DB::table("bidding")->where('auctionID','=',$auctionID)->max('latestBid');
+        $bid = new Bidding;
+        $bid->auctionID = $auctionID;
+        $bid->userID = $userID;
+        $bid->latestBid = $latestBid;
+        $bid->userDeviceID = $userDeviceID;
 
-        if($latestBid > $highestBid){
-            
-            $bid = new Bidding;
-            $bid->auctionID = $auctionID;
-            $bid->userID = $userID;
-            $bid->latestBid = $latestBid;
-            $bid->userDeviceID = $userDeviceID;
-    
-            $bid->save();
-    
-            broadcast(new testEvent($bid));
+        $bid->save();
 
+        $myBid = 0;
+        $myUserId = 0;
+
+        $highestBid = DB::table("bidding")->select('userID',DB::raw('MAX(latestBid) as latestBid'))->where('auctionID','=',$auctionID)->groupBy('userID')->limit(1)->get();
+
+        //return $highestBid;
+
+        foreach($highestBid as $item){
+            $myUserId = $item->userID;
+            $myBid = $item->latestBid;
+        }
+
+        
+        if($myUserId == $userID && $latestBid == $myBid){
+            //broadcast(new testEvent($bid));
             return "true";
         }
         else{
-            return "false";
+           return "false";
         }
+        //$highestBid = DB::table("bidding")->where('auctionID','=',$auctionID)->max('latestBid');
+
+        // if($latestBid > $highestBid){
+            
+        //     $bid = new Bidding;
+        //     $bid->auctionID = $auctionID;
+        //     $bid->userID = $userID;
+        //     $bid->latestBid = $latestBid;
+        //     $bid->userDeviceID = $userDeviceID;
+    
+        //     $bid->save();
+    
+        //     broadcast(new testEvent($bid));
+
+        //     return "true";
+        // }
+        // else{
+        //     return "false";
+        // }
 
         // $bid = new Bidding;
         // $bid->auctionID = $auctionID;
