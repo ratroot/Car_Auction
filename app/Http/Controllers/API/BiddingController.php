@@ -42,7 +42,7 @@ class BiddingController extends Controller
             $myBid = $item->latestBid;
         }
 
-        return $highestBid;
+        //return $highestBid;
        // return $myUserId." ".$userID." ".$latestBid." ".$myBid;
         if($myUserId == $userID && $latestBid == $myBid){
             broadcast(new testEvent($bid));
