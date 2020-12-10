@@ -190,7 +190,7 @@ class AuctionController extends Controller
     }
 
 
-    public function reauction($auctionID, $startdate, $enddate,$timezoneoffset)
+    public function reauction($auctionID, $startdate, $enddate,$timezoneoffset,$CustomerPrice)
     {
         $start = date('Y-m-d H:i:s', strtotime($startdate));
         //$startdate = Carbon::parse($start,'Asia/Karachi')->tz('UTC')->format('Y-m-d H:i:s');
@@ -201,7 +201,7 @@ class AuctionController extends Controller
         $enddate = Carbon::parse($end)->addMinutes($timezoneoffset)->format('Y-m-d H:i:s');
 
 
-        Auction::where('id',$auctionID)->update(['status' => 3, 'StartDate'=>$startdate, 'EndDate'=>$enddate]);
+        Auction::where('id',$auctionID)->update(['status' => 3, 'StartDate'=>$startdate, 'EndDate'=>$enddate, 'customer_price'=>$CustomerPrice]);
         // $auction = Auction::where('id',$auctionID)->get();
 
         // $auction[0]->negotiated = true;
@@ -209,7 +209,7 @@ class AuctionController extends Controller
 
         // $auction[0]->images = Images::where('auctionID', $auctionID)->get('path');
 
-        $auction = DB::select("SELECT a.id as auctionID, a.Make, a.Model, a.ExactModel, a.Year, a.ReserveCost,a.status, a.StartDate, ".
+        $auction = DB::select("SELECT a.id as auctionID, a.Make, a.Model, a.ExactModel, a.Year, a.ReserveCost,a.status, a.StartDate, a.customer_price, ".
                     "a.EndDate, (SELECT path from images where images.auctionID = a.id LIMIT 1) as image FROM auctions a ".
                     "WHERE a.id = $auctionID");  
 
@@ -229,10 +229,11 @@ class AuctionController extends Controller
             $pusher['StartDate'] = $auction[0]->StartDate;
             $pusher['EndDate'] = $auction[0]->EndDate;
             $pusher['negotiated'] = true;
+            $pusher['customer_price'] = $auction[0]->customer_price;
             $pusher['image'] = $auction[0]->image;
         }
         
-        //return $pusher;
+        return $pusher;
         broadcast(new newauctionEvent(json_encode($pusher)));
 
         return back()->with('success','Record updated successfully');

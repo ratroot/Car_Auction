@@ -73,6 +73,13 @@
                 <div class="modal-body">
                     <p>Add new start and end date for re-auction</p>
                     <div class="row">
+
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="form-group">
+                                <label for="" class="control-label">Customer Price (AED)</label>
+                                <input type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" name="customer_price" id="customer_price" class="form-control">
+                            </div>
+                        </div>
                         <div class="col-lg-6 col-sm-12">
                             <div class="form-group">
                                 <label for="" class="control-label">Start Date</label>
@@ -315,13 +322,14 @@
             var url = $(this).attr('data-reauction-url');
             var StartDate = $("#StartDate").val();
             var EndDate = $("#EndDate").val();
+            var CustomerPrice = $("#customer_price").val();
             var timezoneoffset = new Date().getTimezoneOffset();
-            if(StartDate == '' || EndDate == ''){
-                alert('Please add start and end date & time');
+            if(StartDate == '' || EndDate == '' || CustomerPrice == ''){
+                alert('Please add start date,end date and customer price');
                 return;
             }
             else{
-                url = url+'/'+StartDate+'/'+EndDate+'/'+timezoneoffset+'';
+                url = url+'/'+StartDate+'/'+EndDate+'/'+timezoneoffset+'/'+CustomerPrice+'';
             }
             $('<a href = "'+url+'"></a>')[0].click();
         });
