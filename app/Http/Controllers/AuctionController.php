@@ -233,7 +233,7 @@ class AuctionController extends Controller
             $pusher['image'] = $auction[0]->image;
         }
         
-        return $pusher;
+        //return $pusher;
         broadcast(new newauctionEvent(json_encode($pusher)));
 
         return back()->with('success','Record updated successfully');
