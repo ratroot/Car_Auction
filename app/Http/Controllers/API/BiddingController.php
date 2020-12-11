@@ -63,7 +63,7 @@ class BiddingController extends Controller
             
             broadcast(new testEvent($bid));
 
-            return "true";
+            return $bid;
         }
         else{
            return "false";
