@@ -30,7 +30,7 @@ class AuctionAPI extends Controller
         //                 ->where('status','=',1)
         //                 ->OrWhere('status','=',3)->get();
 
-        $all_data = DB::select("SELECT a.id, a.Make, a.Model, a.ExactModel, a.Year, a.ReserveCost,a.status, a.StartDate, ".
+        $all_data = DB::select("SELECT a.id, a.Make, a.Model, a.ExactModel, a.Year, a.ReserveCost,a.status, a.StartDate, a.customer_price, ".
                     "a.EndDate, (SELECT path from images where images.auctionID = a.id LIMIT 1) as image FROM auctions a ".
                     "WHERE a.EndDate > '".Carbon::now()."' AND (a.status = 1 OR a.status = 3)");   
         foreach($all_data as $data){

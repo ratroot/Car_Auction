@@ -19,7 +19,8 @@ class BiddingController extends Controller
         $userID = $request['User_id'];
         $latestBid = $request['Latestbid'];
         $userDeviceID = $request['Usertoken'];
-        
+        $negotiated = $request['negotiated'];
+
 
         $bid = new Bidding;
         $bid->auctionID = $auctionID;
@@ -28,6 +29,7 @@ class BiddingController extends Controller
         $bid->userDeviceID = $userDeviceID;
 
         $bid->save();
+
 
         $myBid = 0;
         $myUserId = 0;
@@ -45,7 +47,22 @@ class BiddingController extends Controller
         //return $highestBid;
        // return $myUserId." ".$userID." ".$latestBid." ".$myBid;
         if($myUserId == $userID && $latestBid == $myBid){
+            if($negotiated == true){
+                $seconds= $request['seconds'];
+
+                if($seconds == null || $seconds == ""){
+                    $seconds = 0;
+                }
+
+                DB::statement("UPDATE auctions SET EndDate = DATE_ADD(EndDate, INTERVAL $seconds second) WHERE id = $auctionID");
+
+                $bid->negotiated = true;
+                $bid->seconds = $seconds;
+
+            }
+            
             broadcast(new testEvent($bid));
+
             return "true";
         }
         else{
