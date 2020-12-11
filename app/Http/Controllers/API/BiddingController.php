@@ -47,7 +47,7 @@ class BiddingController extends Controller
         //return $highestBid;
        // return $myUserId." ".$userID." ".$latestBid." ".$myBid;
         if($myUserId == $userID && $latestBid == $myBid){
-            if($negotiated == true){
+            if($negotiated == "true"){
                 $seconds= $request['seconds'];
 
                 if($seconds == null || $seconds == ""){
