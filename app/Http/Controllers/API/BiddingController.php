@@ -56,14 +56,25 @@ class BiddingController extends Controller
 
                 DB::statement("UPDATE auctions SET EndDate = DATE_ADD(EndDate, INTERVAL $seconds second) WHERE id = $auctionID");
 
-                $bid->negotiated = true;
-                $bid->seconds = $seconds;
+                $pusher = array();
+                $pusher->auctionID = $auctionID;
+                $pusher->userID = $userID;
+                $pusher->latestBid = $latestBid;
+                $pusher->userDeviceID = $userDeviceID;
+                $pusher->negotiated = true;
+                $pusher->seconds = $seconds;
 
+                broadcast(new testEvent($pusher));
+
+                return "true";
+            }
+            else{
+                broadcast(new testEvent($bid));
+
+                return "true";
             }
             
-            broadcast(new testEvent($bid));
-
-            return $bid;
+            
         }
         else{
            return "false";
