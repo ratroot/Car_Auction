@@ -231,6 +231,7 @@ class AuctionController extends Controller
             $pusher['negotiated'] = true;
             $pusher['customer_price'] = $auction[0]->customer_price;
             $pusher['image'] = $auction[0]->image;
+            $pusher['highestBid'] =  DB::table('bidding')->where('bidding.auctionID', '=',$auctionID)->max('latestBid');
         }
         
         //return $pusher;
