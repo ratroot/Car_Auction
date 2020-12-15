@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Bidding;
 use App\Events\testEvent;
+use App\Events\addSeconds;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -64,7 +65,7 @@ class BiddingController extends Controller
                 $pusher['negotiated'] = true;
                 $pusher['seconds'] = $seconds;
 
-                broadcast(new testEvent($pusher));
+                broadcast(new addSeconds($pusher));
 
                 return "true";
             }
