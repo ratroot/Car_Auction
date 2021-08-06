@@ -8,7 +8,6 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -70,74 +69,5 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-    }
-
-    protected function APIregister(Request $data)
-    {
-        $response = array('response' => '', 'status'=>false,'message'=>'');
-        try{
-            $validator = Validator::make($data->all(), [
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:8'],
-                'EIDnumber' => ['required', 'string'],
-                'DOB' => ['required', 'string'],
-                'phone' => ['required', 'string'],
-                'EID_front_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg'],
-                'EID_back_pic' => ['required', 'image','mimes:jpeg,png,jpg,gif,svg'],
-            ]);
-            if ($validator->fails()) {
-                $response['response'] = $validator->messages();
-            }else{
-                
-                $response['status'] = true;
-    
-                $timeStamp = now()->timestamp;
-                $profile_pic = $data->file('profile_pic');
-                $profile_pic_name = '';
-                $EID_front_pic = $data->file('EID_front_pic');
-                $EID_front_pic_name = '';
-                $EID_back_pic = $data->file('EID_back_pic');
-                $EID_back_pic_name = '';
-    
-                if($EID_front_pic != null && $EID_back_pic !=null){
-                    $EID_front_pic_name= $timeStamp.$EID_front_pic->getClientOriginalName();
-                    $EID_back_pic_name= $timeStamp.$EID_back_pic->getClientOriginalName();
-                    //$profile_pic_name= $EID_back_pic->getClientOriginalName();
-    
-                    $EID_front_pic->move(public_path().'/image/',$EID_front_pic_name);
-                    $EID_back_pic->move(public_path().'/image/',$EID_back_pic_name);
-                    //$profile_pic->move(public_path().'/image/',$profile_pic_name);
-                }
-                if($profile_pic != null){        
-                    $profile_pic_name= $timeStamp.$EID_back_pic->getClientOriginalName();
-    
-                    $profile_pic->move(public_path().'/image/',$profile_pic_name);
-                }  
-    
-    
-                $user = User::create([
-                    'name' => $data['name'],
-                    'email' => $data['email'],
-                    'password' => Hash::make($data['password']),
-                    'EIDnumber' => $data['EIDnumber'],
-                    'DOB' => $data['DOB'],
-                    'phone' => $data['phone'],
-                    'profile_pic' => $profile_pic_name,
-                    'EID_front_pic' => $EID_front_pic_name,
-                    'EID_back_pic' => $EID_back_pic_name,
-                ]);
-                $user->APIgenerateToken();
-                $response['message'] = 'success';
-                $response['response'] = $user;
-            }
-            
-        }
-        catch (\Exception $e) {
-
-            $response['message'] = "an unknown error occured please contact your system admin";
-        }
-        return $response;
-
     }
 }

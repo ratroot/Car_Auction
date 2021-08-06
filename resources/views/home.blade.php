@@ -9,25 +9,25 @@
 
                 <div class="card-body">
                    <div class="row">
-                   <div class="col-lg-4">
-                   <a href="{{url('/completed')}}">
-                        <div class="card">
-                            <div class="card-body">
-                            Completed Auctions
-                            </div>
+                        <div class="col-lg-4 mb-4">
+                                <a href="{{url('/completed')}}">
+                                        <div class="card">
+                                            <div class="card-body">
+                                            Sold Cars
+                                            </div>
+                                        </div>
+                                    </a>
+
                         </div>
-                    </a>
-
-                   </div>
 
 
-                   <div class="col-lg-4">
+                   <div class="col-lg-4 mb-4">
 
 
                     <a href="{{url('/auction/create')}}">
                         <div class="card">
                             <div class="card-body">
-                            Add Auction request
+                                Add Vehicle request
                             </div>
                         </div>
                     </a>
@@ -35,7 +35,7 @@
                    </div>
 
 
-                   <div class="col-lg-4">
+                   <div class="col-lg-4 mb-4">
 
                     <a href="{{url('/users')}}">
                         <div class="card">
@@ -45,7 +45,26 @@
                         </div>
                     </a>
                    </div>
+                   <div class="col-lg-4">
+                        <a href="#">
+                                <div class="card">
+                                    <div class="card-body">
+                                    Active Cars
+                                    </div>
+                                </div>
+                            </a>
 
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="#">
+                                <div class="card">
+                                    <div class="card-body">
+                                    Test Drive Booking
+                                    </div>
+                                </div>
+                            </a>
+
+                    </div>
 
                    </div>
                 </div>

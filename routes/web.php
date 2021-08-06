@@ -47,3 +47,7 @@ Route::get('/notification', 'NotificationController@notification');
 Route::get('/invoice/approve/{auctionID}', 'AuctionController@approveInvoice');
 Route::get('/invoice/disapprove/{auctionID}', 'AuctionController@disapproveInvoice');
 Route::get('/invoice/changestatus/{auctionID}/{value}', 'AuctionController@changeinvoicestatus');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
